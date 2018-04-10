@@ -1,0 +1,12 @@
+{% extends 'layout.html.twig' %}
+{% block page_title %}{{ parent() }} - Login{% endblock %}
+
+{% block content %}
+    <div class="errors">{{ errors }}</div>
+    <p class="register">Login</p>
+    <form method="POST" action="?action=login">
+        <input type="text" name="pseudo" placeholder="Pseudo"><br>
+        <input type="password" name="password" placeholder="Password"><br>
+        <button class="btn">Login</button>
+    </form>
+{% endblock %}

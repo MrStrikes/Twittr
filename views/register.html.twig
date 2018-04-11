@@ -1,6 +1,11 @@
 {% extends 'layout.html.twig' %}
 {% block page_title %}Register{% endblock %}
 {% block content %}
+    <div class="errors">
+        {% for error in errors %}
+            {{ error }} <br>
+        {% endfor %}
+    </div>
 <form action="?action=register" method="POST">
     <label for="firstname">Firstname :</label>
     <input type="text" name="firstname"><br>
@@ -8,8 +13,6 @@
     <input type="text" name="lastname"><br>
     <label for="username">Username :</label>
     <input type="text" name="username"><br>
-    <label for="at_username">@Username :</label>
-    <input type="text" name="at_username"><br>
     <label for="password">Password :</label>
     <input type="password" name="password"><br>
     <label for="password_repeat">Password Repeat :</label>

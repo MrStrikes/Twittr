@@ -22,24 +22,16 @@ class MainController extends BaseController
         // }
         // else 
         // {
-            if (!empty($_POST['firstname']) && !empty($_POST['lastname'])
-                && !empty($_POST['username']) && !empty($_POST['at_username'])
-                && !empty($_POST['password']) && !empty($_POST['password_repeat'])
-                && !empty($_POST['email'])) {
-                $firstname = htmlentities($_POST['firstname']);
-                $lastname = htmlentities($_POST['lastname']);
-                $username = htmlentities($_POST['username']);
-                $at_username = htmlentities($_POST['at_username']);
-                $email = htmlentities($_POST['email']);
-                $password = $_POST['password'];
-                $passwordRepeat = $_POST['password_repeat'];
+            if (!empty($_POST['firstname']) || !empty($_POST['lastname'])
+                || !empty($_POST['username']) || !empty($_POST['at_username'])
+                || !empty($_POST['password']) || !empty($_POST['password_repeat'])
+                || !empty($_POST['email'])) {
 
                 $UserManager = new UserManager();
-                $errors = $UserManager->registerUser($firstname, $lastname, $username, $at_username, $password, $passwordRepeat, $email);
-                if ($errors === []) {
-                    $data = ['user' => $_SESSION];
-                    $this->redirectToRoute('home');
-                    return $this->render('register.html.twig', $data);
+                $errors = $UserManager->registerUser(htmlentities($_POST['firstname']), htmlentities($_POST['lastname']),
+                    htmlentities($_POST['username']), $_POST['password'], $_POST['password_repeat'], htmlentities($_POST['email']));
+                if ($errors === true) {
+                    return $this->redirectToRoute('home');
                 } else {
                     $data = ['errors' => $errors];
                     return $this->render('register.html.twig', $data);

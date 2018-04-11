@@ -1,6 +1,7 @@
 homepage_route: "home"
 routes:
     home: "Main:home"
+    register: "User:register"
     login: "User:login"
     logout: "User:logout"
     newTwtt: "Twtt:newTwtt"

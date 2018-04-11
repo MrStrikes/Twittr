@@ -1,11 +1,16 @@
 {% extends 'layout.html.twig' %}
 
-{% block page_title %}Cool Framework{% endblock %}
+{% block page_title %}{{ parent() }} - Home{% endblock %}
 
 {% block content %}
-<h2>Hello {{ datas['username'] }}</h2>
-<h1>
-  Welcome to the Cool Framework<br>
-  <small>By SUP'Internet DEV 2020</small>
-</h1>
+    <main>
+        <div class="new-twtt">
+            <textarea name="new-twtt" cols="100" rows="5"></textarea><br>
+            <button name="new-twtt">Twtter</button>
+        </div>
+    </main>
+{% endblock %}
+
+{% block script %}
+    <script src="./assets/scripts/home.js"></script>
 {% endblock %}

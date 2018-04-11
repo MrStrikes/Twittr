@@ -2,14 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block page_title %}{% endblock %}</title>
+    <title>{% block page_title %}Twttr{% endblock %}</title>
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-    <a href="?action=register">S'inscrire</a>
-    <a href="?action=login">Login</a>
-    <a href="?action=home">Go back home</a>
-    {% block content %}
-    {% endblock %}
+<header>
+    <nav>
+        <ul>
+            {% if session %}
+                <li><a href="?action=home">Home</a></li>
+                <li><a href="?action=logout">Logout</a></li>
+            {% else %}
+            <li><a href="?action=login">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+{% block content %}
+{% endblock %}
+
+{% block script %}
+{% endblock %}
+
 </body>
 </html>

@@ -7,25 +7,28 @@ use Cool\DBManager;
 
 class UserManager
 {
-    public function registerUser($firstname, $lastname, $username, $at_username, $password, $repeatPassword, $email)
+    public function registerUser($firstname, $lastname, $username, $password, $repeatPassword, $email)
     {
-        $regexPassword = "\"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$\"";
-        $regexEmail =  " /^[^\W][a-zA-Z0-9]+(.[a-zA-Z0-9]+)@[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*.[a-zA-Z]{2,4}$/ ";
         $errors = [];
-
-        if (!preg_match($regexEmail,$email)){
+        if (strlen($firstname) < 4){
+            $errors[] = 'Firstname too short';
+        }
+        if (strlen($lastname) < 4){
+            $errors[] = 'Lastname too short';
+        }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
             $errors[] = 'Invalid Email';
         }
-        if((strlen($username) < 4) || (strlen($username) > 20)){
+        if((strlen($username) < 4) || (strlen($username) > 30)){
             $errors[] = 'Pseudo too short or too long';
         }
-        if(!preg_match($regexPassword,$password)){
-            $errors[] = 'Password must have at least 6 characters with 1 letter uppercase and 1 number';
+        if(strlen($password) < 4 || strlen($password) > 30){
+            $errors[] = 'Password too short or too long';
         }
         if($password !== $repeatPassword){
             $errors[] = 'Password must be identical to the verification';
         }
-        if($errors === []) {
+        if(empty($errors)) {
             $dbm = DBManager::getInstance();
             $pdo = $dbm->getPdo();
             $hashedPwd = password_hash($password, PASSWORD_BCRYPT);
@@ -34,13 +37,19 @@ class UserManager
             $stmt->bindParam(':firstname', $firstname);
             $stmt->bindParam(':lastname', $lastname);
             $stmt->bindParam(':username', $username);
-            $stmt->bindParam(':at_username', $at_username);
+            $stmt->bindParam(':at_username', $username);
             $stmt->bindParam(':password', $hashedPwd);
             $stmt->bindParam(':email', $email);
             
             $stmt->execute();
+            $errors = true;
         }
         return $errors;
+    }
+
+    public function logoutUser()
+    {
+        session_destroy();
     }
 
     public function loginUser($user, $password)
@@ -59,8 +68,10 @@ class UserManager
             $errors = 'Invalid username or password';
             return $errors;
         } else {
-            $_SESSION['username'] = $user;
-            return $_SESSION;
+            $_SESSION['username'] = $result['username'];
+            $_SESSION['at_username'] = $result['at_username'];
+            $_SESSION['id'] = $result['id'];
+            return true;
         }
     }
 }

@@ -2,31 +2,39 @@
 {% block page_title %}{{ parent() }} - Login{% endblock %}
 
 {% block content %}
-    <div class="errors">{{ errors }}</div>
-    <p class="register">Login</p>
-    <form method="POST" action="?action=login">
-        <input type="text" name="pseudo" placeholder="Pseudo"><br>
-        <input type="password" name="password" placeholder="Password"><br>
-        <button class="btn">Login</button>
-    </form>
+    <div class="login">
+        <div class="error">
+            {{ error }}
+        </div>
+        <form method="POST" action="?action=login">
+            <label for="pseudo">Pseudo : </label>
+            <input type="text" name="pseudo" placeholder="Pseudo" id="pseudo"><br>
+            <label for="lg-passwors">Password : </label>
+            <input type="password" name="lg-password" placeholder="Password" id="lg-passwors"><br>
+            <button class="btn">Login</button>
+        </form>
+    </div>
+    <hr>
     <div class="errors">
         {% for error in errors %}
-            register error : {{ error }} <br>
+            {{ error }} <br>
         {% endfor %}
     </div>
-    <form action="?action=register" method="POST">
-        <label for="firstname">Firstname :</label>
-        <input type="text" name="firstname"><br>
-        <label for="lastname">Lastname :</label>
-        <input type="text" name="lastname"><br>
-        <label for="username">Username :</label>
-        <input type="text" name="username"><br>
-        <label for="password">Password :</label>
-        <input type="password" name="password"><br>
-        <label for="password_repeat">Password Repeat :</label>
-        <input type="password" name="password_repeat"><br>
-        <label for="email">E-Mail :</label>
-        <input type="text" name="email"><br>
-        <button name="submit">Submit form</button>
-    </form>
+    <div class="register">
+        <form action="?action=login" method="POST">
+            <label for="firstname">Firstname :</label>
+            <input type="text" name="firstname" placeholder="Firstname" id="firstname"><br>
+            <label for="lastname">Lastname :</label>
+            <input type="text" name="lastname" placeholder="Lastname" id="lastname"><br>
+            <label for="username">Username :</label>
+            <input type="text" name="username" placeholder="Username" id="username"><br>
+            <label for="password">Password :</label>
+            <input type="password" name="password" placeholder="Password" id="password"><br>
+            <label for="password_repeat">Password Repeat :</label>
+            <input type="password" name="password_repeat" placeholder="Password" id="password_repeat"><br>
+            <label for="email">E-Mail :</label>
+            <input type="text" name="email" placeholder="Email" id="email"><br>
+            <button name="submit">Register</button>
+        </form>
+    </div>
 {% endblock %}

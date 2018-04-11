@@ -13,21 +13,21 @@ window.addEventListener('load', () => {
     var email = document.querySelector('#email').value;
 
     console.log('oui');
-    reg_btn.addEventListener('click', () => {
+    reg_btn.addEventListener('submit', () => {
         var url = '?action=register';
         fetch(url, {
             method: 'post',
             headers: {
             "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
-            body: 'content='+JSON.stringify($('#text-content').val()),
+            body: `firstname=${firstname}&lastname=${lastname}&username=${username}&password=${password}&password_repeat=${passwordRepeat}&email=${email}`,
             credentials: 'include'
         })
         .then(json)
-        .then(function (data) {
+        .then((data) => {
             console.log('Request succeeded with JSON response', data);
         })
-        .catch(function (error) {
+        .catch((error) => {
             console.log('Request failed', error);
         });
     });

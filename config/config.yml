@@ -3,3 +3,4 @@ routes:
     home: "Main:home"
     login: "User:login"
     logout: "User:logout"
+    newTwtt: "Twtt:newTwtt"

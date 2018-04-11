@@ -26,7 +26,7 @@ window.addEventListener('load', () => {
         .then(json)
         .then((data) => {
             console.log('Request succeeded with JSON response', data);
-            alert(`Welcome to Twittr ${username.value}`)
+            alert(`Welcome to Twittr ${username.value}`);
         })
         .catch((error) => {
             console.log('Request failed', error);

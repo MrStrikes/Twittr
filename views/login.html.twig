@@ -1,8 +1,7 @@
 {% extends 'layout.html.twig' %}
 {% block page_title %}{{ parent() }} - Login{% endblock %}
-
 {% block content %}
-    <div class="login">
+<div class="login">
         <div class="error">
             {{ error }}
         </div>
@@ -21,7 +20,7 @@
         {% endfor %}
     </div>
     <div class="register">
-        <form action="?action=login" method="POST">
+        <form action="?action=register" method="POST">
             <label for="firstname">Firstname :</label>
             <input type="text" name="firstname" placeholder="Firstname" id="firstname"><br>
             <label for="lastname">Lastname :</label>
@@ -34,7 +33,10 @@
             <input type="password" name="password_repeat" placeholder="Password" id="password_repeat"><br>
             <label for="email">E-Mail :</label>
             <input type="text" name="email" placeholder="Email" id="email"><br>
-            <button name="submit">Register</button>
+            <button id="reg-btn" name="submit">Register</button>
         </form>
     </div>
+{% endblock %}
+{% block script %}
+<script src="./assets/scripts/login.js"></script>
 {% endblock %}

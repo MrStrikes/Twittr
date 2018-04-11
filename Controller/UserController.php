@@ -15,12 +15,12 @@ class UserController extends BaseController
         return $this->redirectToRoute('login');
     }
 
-    public function loginAction()
+    public function registerAction()
     {
-        if (!empty($_SESSION['id'])){
+        if (!empty($_SESSION['id'])) {
             return $this->redirectToRoute('home');
         }
-        //REGISTER
+
         if (!empty($_POST['firstname']) || !empty($_POST['lastname'])
             || !empty($_POST['username']) || !empty($_POST['at_username'])
             || !empty($_POST['password']) || !empty($_POST['password_repeat'])
@@ -35,11 +35,20 @@ class UserController extends BaseController
                 return $this->render('login.html.twig', $data);
             }
         }
-        //LOGIN
-        else if (isset($_POST['pseudo']) && isset($_POST['lg-password']) || $_SERVER['REQUEST_METHOD'] === 'POST'){
+
+        return $this->render('login.html.twig');
+    }
+
+    public function loginAction()
+    {
+        if (!empty($_SESSION['id'])) {
+            return $this->redirectToRoute('home');
+        }
+
+        if (isset($_POST['pseudo']) && isset($_POST['lg-password']) || $_SERVER['REQUEST_METHOD'] === 'POST') {
             $manager = new UserManager();
             $getUserData = $manager->loginUser(htmlentities($_POST['pseudo']), $_POST['lg-password']);
-            if ($getUserData !== true){
+            if ($getUserData !== true) {
                 $arr = [
                     'error' => $getUserData
                 ];

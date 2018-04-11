@@ -1,57 +1,42 @@
 {% extends 'layout.html.twig' %}
 {% block page_title %}{{ parent() }} - Login{% endblock %}
 {% block content %}
-<div class="errors">{{ errors }}</div>
-<p class="register">Login</p>
-<form method="POST" action="?action=login">
-    <input type="text" name="pseudo" placeholder="Pseudo"><br>
-    <input type="password" name="password" placeholder="Password"><br>
-    <button class="btn">Login</button>
-</form><br>
-<div class="errors">
-    {% for error in errors %} 
-    register error : {{ error }}
-    {% endfor %}
-</div>
-<form action="?action=register" method="POST">
-    <label for="firstname">Firstname :</label>
-    <input type="text" name="firstname"><br>
-    <label for="lastname">Lastname :</label>
-    <input type="text" name="lastname"><br>
-    <label for="username">Username :</label>
-    <input type="text" name="username"><br>
-    <label for="password">Password :</label>
-    <input type="password" name="password"><br>
-    <label for="password_repeat">Password Repeat :</label>
-    <input type="password" name="password_repeat"><br>
-    <label for="email">E-Mail :</label>
-    <input type="text" name="email"><br>
-    <button name="submit" id="btn-reg">Submit form</button>
-</form>
-
-<script>
-    function json(response){
-        return response.json();
-    }
-    var reg_btn = document.querySelector('#btn-reg');
-    reg_btn.addEventListener('click', () => {
-        console.log('debug');
-        var url = '?action=edit&id='+'{{ file.id }}';
-        fetch(url, {
-            method: 'post',
-            headers: {
-            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-            },
-            body: 'content='+JSON.stringify($('#text-content').val()),
-            credentials: 'include'
-        })
-        .then(json)
-        .then(function (data) {
-            console.log('Request succeeded with JSON response', data);
-        })
-        .catch(function (error) {
-            console.log('Request failed', error);
-        });
-    });
-</script>
+<div class="login">
+        <div class="error">
+            {{ error }}
+        </div>
+        <form method="POST" action="?action=login">
+            <label for="pseudo">Pseudo : </label>
+            <input type="text" name="pseudo" placeholder="Pseudo" id="pseudo"><br>
+            <label for="lg-passwors">Password : </label>
+            <input type="password" name="lg-password" placeholder="Password" id="lg-passwors"><br>
+            <button class="btn">Login</button>
+        </form>
+    </div>
+    <hr>
+    <div class="errors">
+        {% for error in errors %}
+            {{ error }} <br>
+        {% endfor %}
+    </div>
+    <div class="register">
+        <form action="?action=register" method="POST">
+            <label for="firstname">Firstname :</label>
+            <input type="text" name="firstname" placeholder="Firstname" id="firstname"><br>
+            <label for="lastname">Lastname :</label>
+            <input type="text" name="lastname" placeholder="Lastname" id="lastname"><br>
+            <label for="username">Username :</label>
+            <input type="text" name="username" placeholder="Username" id="username"><br>
+            <label for="password">Password :</label>
+            <input type="password" name="password" placeholder="Password" id="password"><br>
+            <label for="password_repeat">Password Repeat :</label>
+            <input type="password" name="password_repeat" placeholder="Password" id="password_repeat"><br>
+            <label for="email">E-Mail :</label>
+            <input type="text" name="email" placeholder="Email" id="email"><br>
+            <button id="reg-btn" name="submit">Register</button>
+        </form>
+    </div>
+{% endblock %}
+{% block script %}
+<script src="./assets/scripts/login.js"></script>
 {% endblock %}

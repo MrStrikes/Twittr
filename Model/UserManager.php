@@ -47,6 +47,11 @@ class UserManager
         return $errors;
     }
 
+    public function logoutUser()
+    {
+        session_destroy();
+    }
+
     public function loginUser($user, $password)
     {
         $dbm = DBManager::getInstance();
@@ -63,8 +68,10 @@ class UserManager
             $errors = 'Invalid username or password';
             return $errors;
         } else {
-            $_SESSION['username'] = $user;
-            return $_SESSION;
+            $_SESSION['username'] = $result['username'];
+            $_SESSION['at_username'] = $result['at_username'];
+            $_SESSION['id'] = $result['id'];
+            return true;
         }
     }
 }

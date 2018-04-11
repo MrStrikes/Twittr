@@ -20,7 +20,6 @@ class UserController extends BaseController
         if (!empty($_SESSION['id'])) {
             return $this->redirectToRoute('home');
         }
-
         if (!empty($_POST['firstname']) || !empty($_POST['lastname'])
             || !empty($_POST['username']) || !empty($_POST['at_username'])
             || !empty($_POST['password']) || !empty($_POST['password_repeat'])
@@ -29,10 +28,14 @@ class UserController extends BaseController
             $UserManager = new UserManager();
             $errors = $UserManager->registerUser(htmlentities($_POST['firstname']), htmlentities($_POST['lastname']), htmlentities($_POST['username']), $_POST['password'], $_POST['password_repeat'], htmlentities($_POST['email']));
             if ($errors === true) {
-                return $this->redirectToRoute('home');
+                $data = [
+                    'status' => 'ok',
+                    'message' => 'The user has been registred'
+                ];
+                return json_encode($data);
             } else {
                 $data = ['errors' => $errors];
-                return $this->render('login.html.twig', $data);
+                return json_encode($data);
             }
         }
 

@@ -63,7 +63,6 @@ class UserManager
 
         $stmt->execute();
         $result = $stmt->fetch();
-
         if(!password_verify($password, $result['password'])){
             $errors = 'Invalid username or password';
             return $errors;

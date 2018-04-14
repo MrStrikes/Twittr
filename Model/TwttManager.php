@@ -21,4 +21,14 @@ class TwttManager
         $result->bindParam(':content', $content);
         $result->execute();
     }
+
+    public function getTwttForProfile($id)
+    {
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+        $result = $pdo->prepare('SELECT * FROM `twtts` WHERE `rt/fav_author_id` = ?');
+        $result->execute([$id]);
+        $result = $result->fetchAll(2);
+        return array_reverse($result);
+    }
 }

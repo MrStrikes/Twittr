@@ -73,4 +73,17 @@ class UserManager
             return true;
         }
     }
+
+    public function getUserById($id)
+    {
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+
+        $stmt = $pdo->prepare("SElECT * FROM Users WHERE id = :user_id");
+        $stmt->bindParam(':user_id', $id);
+
+        $stmt->execute();
+        $result = $stmt->fetch(2);
+        return $result;
+    }
 }

@@ -49,19 +49,25 @@ class UserController extends BaseController
             return $this->redirectToRoute('home');
         }
 
-        if (isset($_POST['pseudo']) && isset($_POST['lg-password']) || $_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['username']) && isset($_POST['password']) || $_SERVER['REQUEST_METHOD'] === 'POST') {
             $manager = new UserManager();
-            $getUserData = $manager->loginUser(htmlentities($_POST['pseudo']), $_POST['lg-password']);
+            $username = htmlentities($_POST['username']);
+            $password = $_POST['password'];
+            $getUserData = $manager->loginUser($username, $password);
             if ($getUserData !== true) {
                 $arr = [
-                    'error' => $getUserData
+                    'status' => 'failed',
+                    'state' => 'There was a problem loggin in the user'
                 ];
-                return $this->render('login.html.twig', $arr);
+                return json_encode($arr);
             } else {
-                return $this->redirectToRoute('home');
+                $arr = [
+                    'status' => 'ok',
+                    'state' => 'The user has successfully been logged in'
+                ];
+                return json_encode($arr);
             }
         }
-
         return $this->render('login.html.twig');
     }
 
@@ -71,16 +77,9 @@ class UserController extends BaseController
         if (empty($userManager->getUserById($_GET['profile_id'])) OR empty($_SESSION['id'])){
             return $this->redirectToRoute('home');
         }
-
-        $twttManager = new TwttManager();
         $userInfo = $userManager->getUserById($_GET['profile_id']);
-        $tl = $twttManager->getTwttForProfile($_GET['profile_id']);
-        for ($i = 0; $i < sizeof($tl); $i++){
-            $tl[$i]['author'] = $userManager->getUserById($tl[$i]['author_id']);
-        }
         $arr = [
             "userInfo"   => $userInfo,
-            "tl"         => $tl,
             "session"    =>$_SESSION
         ];
         return $this->render('profile.html.twig', $arr);

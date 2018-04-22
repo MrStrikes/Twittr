@@ -33,7 +33,7 @@ class UserManager
             $pdo = $dbm->getPdo();
             $hashedPwd = password_hash($password, PASSWORD_BCRYPT);
 
-            $stmt = $pdo->prepare("INSERT INTO `Users` (`id`, `firstname`, `lastname`, `username`, `at_username`, `password`, `email`) VALUES (NULL, :firstname, :lastname, :username, :at_username, :password, :email)");
+            var_dump($stmt = $pdo->prepare("INSERT INTO `Users` (`id`, `firstname`, `lastname`, `username`, `at_username`, `password`, `email`) VALUES (NULL, :firstname, :lastname, :username, :at_username, :password, :email)"));
             $stmt->bindParam(':firstname', $firstname);
             $stmt->bindParam(':lastname', $lastname);
             $stmt->bindParam(':username', $username);
@@ -63,7 +63,6 @@ class UserManager
 
         $stmt->execute();
         $result = $stmt->fetch();
-
         if(!password_verify($password, $result['password'])){
             $errors = 'Invalid username or password';
             return $errors;

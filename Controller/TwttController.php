@@ -20,4 +20,15 @@ class TwttController extends BaseController
             return true;
         }
     }
+
+    public function getTlProfileAction()
+    {
+        $userManager = new UserManager();
+        $twttManager = new TwttManager();
+        $tl = $twttManager->getTwttForProfile($_POST['profile_id']);
+        for ($i = 0; $i < sizeof($tl); $i++){
+            $tl[$i]['author'] = $userManager->getUserById($tl[$i]['author_id']);
+        }
+        return json_encode($tl);
+    }
 }

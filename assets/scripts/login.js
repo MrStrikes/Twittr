@@ -1,8 +1,12 @@
 function json(response){
     return response.json();
-}
+} 
 
 window.addEventListener('load', () => {
+
+    /***********
+    * Register *
+    ***********/
     var reg_btn = document.querySelector('#reg-btn');
 
     var firstname = document.querySelector('#firstname');
@@ -32,9 +36,9 @@ window.addEventListener('load', () => {
         });
     });
 
-    /*********
-     * LOGIN *
-     ********/
+    /********
+    * LOGIN *
+    ********/
 
     var log_btn = document.querySelector('#btn-login');
 
@@ -57,7 +61,7 @@ window.addEventListener('load', () => {
             if(data.status === 'ok'){
                 window.location.href = "http://localhost/Twittr/?action=home";
             } else {
-                alert('There is an error in your credentials');
+                alert('There is an error in your credentials, check again please');
             }
         })
         .catch((error) => {

@@ -25,11 +25,16 @@ class TwttController extends BaseController
     {
         $userManager = new UserManager();
         $twttManager = new TwttManager();
-        var_dump($_POST);
         $tl = $twttManager->getTwttForProfile($_POST['profile_id']);
         for ($i = 0; $i < sizeof($tl); $i++){
             $tl[$i]['author'] = $userManager->getUserById($tl[$i]['author_id']);
         }
-        return json_encode($tl);
+       // var_dump("<pre>");
+        //var_dump($tl);
+        $tl = json_encode($tl, JSON_PRETTY_PRINT, 9999);
+        //var_dump("<hr>");
+        //var_dump("<hr>");
+        //var_dump(json_last_error());
+        return $tl;
     }
 }

@@ -11,10 +11,11 @@ window.addEventListener('load', () => {
 
     var firstname = document.querySelector('#firstname');
     var lastname = document.querySelector('#lastname');
-    var username = document.querySelector('#username');
-    var password = document.querySelector('#password');
+    var user = document.querySelector('#username');
+    var pass = document.querySelector('#password');
     var passwordRepeat = document.querySelector('#password_repeat');
     var email = document.querySelector('#email');
+
 
     reg_btn.addEventListener('click', () => {
         var url = '?action=register';
@@ -23,7 +24,7 @@ window.addEventListener('load', () => {
             headers: {
             "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
-            body: `firstname=${firstname.value}&lastname=${lastname.value}&username=${username.value}&password=${password.value}&password_repeat=${passwordRepeat.value}&email=${email.value}`,
+            body: `firstname=${firstname.value}&lastname=${lastname.value}&username=${user.value}&password=${pass.value}&password_repeat=${passwordRepeat.value}&email=${email.value}`,
             credentials: 'include'
         })
         .then(json)

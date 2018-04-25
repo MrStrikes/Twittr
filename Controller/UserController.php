@@ -77,16 +77,9 @@ class UserController extends BaseController
         if (empty($userManager->getUserById($_GET['profile_id'])) OR empty($_SESSION['id'])){
             return $this->redirectToRoute('home');
         }
-
-        $twttManager = new TwttManager();
         $userInfo = $userManager->getUserById($_GET['profile_id']);
-        $tl = $twttManager->getTwttForProfile($_GET['profile_id']);
-        for ($i = 0; $i < sizeof($tl); $i++){
-            $tl[$i]['author'] = $userManager->getUserById($tl[$i]['author_id']);
-        }
         $arr = [
             "userInfo"   => $userInfo,
-            "tl"         => $tl,
             "session"    =>$_SESSION
         ];
         return $this->render('profile.html.twig', $arr);

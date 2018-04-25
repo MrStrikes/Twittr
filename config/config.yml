@@ -6,3 +6,4 @@ routes:
     logout: "User:logout"
     newTwtt: "Twtt:newTwtt"
     profile: "User:profile"
+    getTlProfile: "Twtt:getTlProfile"

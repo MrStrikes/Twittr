@@ -26,9 +26,10 @@ class TwttManager
     {
         $dbm = DBManager::getInstance();
         $pdo = $dbm->getPdo();
-        $result = $pdo->prepare('SELECT * FROM `twtts` WHERE `rt/fav_author_id` = ?');
-        $result->execute([$id]);
-        $result = $result->fetchAll(2);
+        $stmt = $pdo->prepare('SELECT * FROM `twtts` WHERE `rt/fav_author_id` = ?');
+        $stmt->execute([$id]);
+        $result = $stmt->fetchAll();
+        die(var_dump($result));
         return array_reverse($result);
     }
 }

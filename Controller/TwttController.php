@@ -31,7 +31,7 @@ class TwttController extends BaseController
             unset($tl[$i]['author']['email']);
             unset($tl[$i]['author']['password']);
         }
-        $tl = json_encode($tl, JSON_PRETTY_PRINT, 9999);
+        $tl = json_encode($tl);
         return $tl;
     }
 }

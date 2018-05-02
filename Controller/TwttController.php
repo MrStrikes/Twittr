@@ -26,8 +26,16 @@ class TwttController extends BaseController
         $userManager = new UserManager();
         $twttManager = new TwttManager();
         $tl = $twttManager->getTwttForProfile($_POST['profile_id']);
+        $tl = array_reverse($tl);
         for ($i = 0; $i < sizeof($tl); $i++){
             $tl[$i]['author'] = $userManager->getUserById($tl[$i]['author_id']);
+            if ("retwtt" == $tl[$i]['type']){
+                $tl[$i]['author_rt'] = $userManager->getUserById($tl[$i]['rt/fav_author_id']);
+                unset($tl[$i]['author_rt']['email']);
+                unset($tl[$i]['author_rt']['password']);
+                unset($tl[$i]['author_rt']['firstname']);
+                unset($tl[$i]['author_rt']['lastname']);
+            }
             unset($tl[$i]['author']['email']);
             unset($tl[$i]['author']['password']);
             unset($tl[$i]['author']['firstname']);

@@ -16,13 +16,13 @@ window.onload = function () {
     })
         .then(json)
         .then((data) => {
+            console.log(this);
             let tl = document.querySelector('.tl-profile');
             for (let a in data){
                 if ('twtt' === data[a]['type']){
                     tl.prepend(newTwtt(data[a]['author']['at_username'], data[a]['author']['username'], data[a]['author']['id'], data[a]['creation'], data[a]['content']));
                 } else if ('retwtt' === data[a]['type']){
                     tl.prepend(newRtwtt(data[a]['author']['at_username'], data[a]['author']['username'], data[a]['author']['id'], data[a]['creation'], data[a]['content'], data[a]['rt/fav_author_id'], data[a]['author_rt']['at_username'], data[a]['author_rt']['username']));
-
                 }
             }
     })

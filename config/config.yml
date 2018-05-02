@@ -7,3 +7,4 @@ routes:
     newTwtt: "Twtt:newTwtt"
     profile: "User:profile"
     getTlProfile: "Twtt:getTlProfile"
+    follow: "User:follow"

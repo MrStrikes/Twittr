@@ -86,4 +86,28 @@ class UserManager
         $result = $stmt->fetch(2);
         return $result;
     }
+
+    public function followUser($follower, $followed)
+    {
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+        if($follower == $followed){
+            $arr = [
+                "status" => "Nope",
+                "message" => "You can't follow yourself dude"
+            ];
+            return $arr;
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO `follow` (`id`, `follower_id`, `followed_id`) VALUES (NULL, :follower, :followed)");
+            $stmt->bindParam(':follower', $follower);
+            $stmt->bindParam(':followed', $followed);
+
+            $stmt->execute();
+            $arr = [
+                "status" => "ok",
+                "message" => "Follow ok !"
+            ];
+            return $arr;
+        }
+    }
 }

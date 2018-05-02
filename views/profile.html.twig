@@ -2,12 +2,17 @@
 {% block page_title %}{{ parent() }} - profile{% endblock %}
 
 {% block content %}
-    <h2><a href="?action=profile&profile_id={{ userInfo.id }}">{{ userInfo.username }} @{{ userInfo.at_username }}</a></h2>
+    <h2><a href="?action=profile&amp;profile_id={{ userInfo.id }}">{{ userInfo.username }} @{{ userInfo.at_username }}</a></h2>
+    <div class="actions">
+        <a href='?action=follow' class='follow-btn'>Follow user</a>
+    </div><br>
     <div class="tl-profile">
-
+    
     </div>
+    <input type="hidden" value={{ session['id'] }} class="session_id">
 {% endblock %}
 
 {% block script %}
     <script src="./assets/scripts/profile.js"></script>
+    <script src="./assets/scripts/follow.js"></script>
 {% endblock %}

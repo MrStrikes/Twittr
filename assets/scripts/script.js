@@ -2,7 +2,7 @@ const newTwtt = (atUsername, username, user_id, date, content) => {
     let twtt = document.createElement('div');
     let header = document.createElement('div');
     let twContent = document.createElement('div');
-    twtt.classList.add('div');
+    twtt.classList.add('twtt');
     header.classList.add('tw-head');
     twContent.classList.add('tw-content');
     header.setAttribute('id', user_id);

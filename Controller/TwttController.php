@@ -30,6 +30,8 @@ class TwttController extends BaseController
             $tl[$i]['author'] = $userManager->getUserById($tl[$i]['author_id']);
             unset($tl[$i]['author']['email']);
             unset($tl[$i]['author']['password']);
+            unset($tl[$i]['author']['firstname']);
+            unset($tl[$i]['author']['lastname']);
         }
         $tl = json_encode($tl);
         return $tl;

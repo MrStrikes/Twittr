@@ -3,33 +3,9 @@
 
 {% block content %}
     <h2><a href="?action=profile&profile_id={{ userInfo.id }}">{{ userInfo.username }} @{{ userInfo.at_username }}</a></h2>
-    {% for twtt in tl %}
-        {% if twtt.type in ['retwtt'] %}
-            <div>
-                <div class="header">
-                    <a href="?action=profile&profile_id={{ userInfo.id }}">{{ userInfo.username }}</a> a retwtté
-                    <br>
-                    <a href="?action=profile&profile_id={{ twtt.author.id }}">{{ twtt.author.username }} @{{ twtt.author.at_username }}</a>
-                </div>
-                <div class="content">
-                    {{ twtt.content }}
-                </div>
-            </div>
-            <hr>
-        {% elseif twtt.type in ['twtt'] %}
-            <div>
-                <div class="header">
-                    <a href="?action=profile&profile_id={{ userInfo.id }}">{{ userInfo.username }} @{{ userInfo.at_username }}</a>
-                    <br>
-                    {{ twtt.creation }}
-                </div>
-                <div class="content">
-                    {{ twtt.content }}
-                </div>
-            </div>
-            <hr>
-        {% endif %}
-    {% endfor %}
+    <div class="tl-profile">
+
+    </div>
 {% endblock %}
 
 {% block script %}

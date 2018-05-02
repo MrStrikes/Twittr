@@ -4,7 +4,9 @@
 {% block content %}
     <h2><a href="?action=profile&amp;profile_id={{ userInfo.id }}">{{ userInfo.username }} @{{ userInfo.at_username }}</a></h2>
     <div class="actions">
+    {% if userInfo['id'] != session['id'] %}
         <a href='?action=follow' class='follow-btn'>Follow user</a>
+    {% endif %}
     </div><br>
     <div class="tl-profile">
     

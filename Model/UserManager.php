@@ -124,6 +124,22 @@ class UserManager
         }
     }
 
+    public function unfollowUser($follower, $followed)
+    {
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+        $stmt = $pdo->prepare("DELETE FROM `follow` WHERE `follower_id` = :follower AND `followed_id` = :followed");
+        $stmt->bindParam(':follower', $follower);
+        $stmt->bindParam(':followed', $followed);
+
+        $stmt->execute();
+        $arr = [
+            "status" => "ok",
+            "message" => "Unfollow ok !"
+        ];
+        return $arr;
+    }
+
     public function isFollowing($follower, $followed)
     {
         $dbm = DBManager::getInstance();

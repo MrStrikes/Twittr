@@ -21,25 +21,23 @@ class UserController extends BaseController
         if (!empty($_SESSION['id'])) {
             return $this->redirectToRoute('home');
         }
-        if (!empty($_POST['firstname']) || !empty($_POST['lastname'])
-            || !empty($_POST['username']) || !empty($_POST['at_username'])
-            || !empty($_POST['password']) || !empty($_POST['password_repeat'])
-            || !empty($_POST['email'])) {
+        if (!empty($_POST['firstname']) && !empty($_POST['lastname'])
+            && !empty($_POST['username']) && !empty($_POST['password']) 
+            && !empty($_POST['password_repeat']) && !empty($_POST['email'])) {
 
-            $UserManager = new UserManager();
-            $errors = $UserManager->registerUser(htmlentities($_POST['firstname']), htmlentities($_POST['lastname']), htmlentities($_POST['username']), $_POST['password'], $_POST['password_repeat'], htmlentities($_POST['email']));
-            if ($errors === true) {
-                $data = [
-                    'status' => 'ok',
-                    'message' => 'The user has been registred'
-                ];
+                $UserManager = new UserManager();
+                $login = $UserManager->registerUser(htmlentities($_POST['firstname']), htmlentities($_POST['lastname']), htmlentities($_POST['username']), $_POST['password'], $_POST['password_repeat'], htmlentities($_POST['email']));
+                if ($login === true) {
+                    $data = [
+                        'status' => 'ok',
+                        'message' => 'The user has been registred'
+                    ];
                 return json_encode($data);
             } else {
-                $data = ['errors' => $errors];
+                $data = ['errors' => $login];
                 return json_encode($data);
             }
         }
-
         return $this->render('login.html.twig');
     }
 
@@ -83,5 +81,12 @@ class UserController extends BaseController
             "session"    =>$_SESSION
         ];
         return $this->render('profile.html.twig', $arr);
+    }
+
+    public function followAction()
+    {
+        $userManager = new UserManager();
+        $follow = $userManager->followUser($_POST['follower_id'], $_POST['followed_id']);
+        return json_encode($follow);
     }
 }

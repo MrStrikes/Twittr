@@ -1,16 +1,21 @@
 function json(response){
     return response.json();
-}
+} 
 
 window.addEventListener('load', () => {
+
+    /***********
+    * Register *
+    ***********/
     var reg_btn = document.querySelector('#reg-btn');
 
     var firstname = document.querySelector('#firstname');
     var lastname = document.querySelector('#lastname');
-    var username = document.querySelector('#username');
-    var password = document.querySelector('#password');
+    var user = document.querySelector('#username');
+    var pass = document.querySelector('#password');
     var passwordRepeat = document.querySelector('#password_repeat');
     var email = document.querySelector('#email');
+
 
     reg_btn.addEventListener('click', () => {
         var url = '?action=register';
@@ -19,7 +24,7 @@ window.addEventListener('load', () => {
             headers: {
             "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
-            body: `firstname=${firstname.value}&lastname=${lastname.value}&username=${username.value}&password=${password.value}&password_repeat=${passwordRepeat.value}&email=${email.value}`,
+            body: `firstname=${firstname.value}&lastname=${lastname.value}&username=${user.value}&password=${pass.value}&password_repeat=${passwordRepeat.value}&email=${email.value}`,
             credentials: 'include'
         })
         .then(json)
@@ -32,9 +37,9 @@ window.addEventListener('load', () => {
         });
     });
 
-    /*********
-     * LOGIN *
-     ********/
+    /********
+    * LOGIN *
+    ********/
 
     var log_btn = document.querySelector('#btn-login');
 
@@ -55,9 +60,9 @@ window.addEventListener('load', () => {
         .then((data) => {
             console.log('Request succeeded with JSON response', data);
             if(data.status === 'ok'){
-                window.location.href = "?action=home";
+                window.location.href = "http://localhost/Twittr/?action=home";
             } else {
-                alert('There is an error in your credentials');
+                alert('There is an error in your credentials, check again please');
             }
         })
         .catch((error) => {

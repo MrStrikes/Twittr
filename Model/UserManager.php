@@ -91,10 +91,23 @@ class UserManager
     {
         $dbm = DBManager::getInstance();
         $pdo = $dbm->getPdo();
+        $isFollowing = $this->isFollowing($follower, $followed);
         if($follower == $followed){
             $arr = [
                 "status" => "Nope",
                 "message" => "You can't follow yourself dude"
+            ];
+            return $arr;
+        } elseif($_SESSION['id'] != $follower) {
+            $arr = [
+                "status" => "Nope",
+                "message" => "You can't follow as someone else dude"
+            ];
+            return $arr;
+        } elseif($isFollowing == true) {
+            $arr = [
+                "status" => "Nope",
+                "message" => "You can't follow someone you already follow"
             ];
             return $arr;
         } else {
@@ -109,5 +122,18 @@ class UserManager
             ];
             return $arr;
         }
+    }
+
+    public function isFollowing($follower, $followed)
+    {
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+        $stmt = $pdo->prepare("SELECT * FROM `follow` WHERE follower_id = :follower AND followed_id = :followed");
+        $stmt->bindParam(':follower', $follower);
+        $stmt->bindParam(':followed', $followed);
+
+        $stmt->execute();
+        $data = $stmt->fetch(\PDO::FETCH_BOUND);
+        return $data;
     }
 }

@@ -76,7 +76,9 @@ class UserController extends BaseController
             return $this->redirectToRoute('home');
         }
         $userInfo = $userManager->getUserById($_GET['profile_id']);
+        $isFollowing = $userManager->isFollowing($_SESSION['id'], $_GET['profile_id']);
         $arr = [
+            "isFollowing" => $isFollowing,
             "userInfo"   => $userInfo,
             "session"    =>$_SESSION
         ];
@@ -88,5 +90,12 @@ class UserController extends BaseController
         $userManager = new UserManager();
         $follow = $userManager->followUser($_POST['follower_id'], $_POST['followed_id']);
         return json_encode($follow);
+    }
+
+    public function unfollowAction()
+    {
+        $userManager = new UserManager();
+        $unfollow = $userManager->unfollowUser($_POST['follower_id'], $_POST['followed_id']);
+        return json_encode($unfollow);
     }
 }

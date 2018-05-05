@@ -16,7 +16,6 @@ window.onload = function () {
     })
         .then(json)
         .then((data) => {
-            console.log(this);
             let tl = document.querySelector('.tl-profile');
             for (let a in data){
                 if ('twtt' === data[a]['type']){

@@ -60,7 +60,7 @@ window.addEventListener('load', () => {
         .then((data) => {
             console.log('Request succeeded with JSON response', data);
             if(data.status === 'ok'){
-                window.location.href = "http://localhost/Twittr/?action=home";
+                window.location.href = "?action=home";
             } else {
                 alert('There is an error in your credentials, check again please');
             }

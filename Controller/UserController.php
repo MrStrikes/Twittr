@@ -48,10 +48,10 @@ class UserController extends BaseController
         }
 
         if (isset($_POST['username']) && isset($_POST['password']) || $_SERVER['REQUEST_METHOD'] === 'POST') {
-            $manager = new UserManager();
+            $userManager = new UserManager();
             $username = htmlentities($_POST['username']);
             $password = $_POST['password'];
-            $getUserData = $manager->loginUser($username, $password);
+            $getUserData = $userManager->loginUser($username, $password);
             if ($getUserData !== true) {
                 $arr = [
                     'status' => 'failed',

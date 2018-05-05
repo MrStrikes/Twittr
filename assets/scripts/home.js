@@ -24,3 +24,22 @@ function sendTwtt() {
 function json(response) {
     return response.json();
 }
+
+function getTl() {
+    fetch("?action=getMainTl", {
+        method: 'get',
+        headers: {
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        credentials: 'include'
+    })
+        .then(json)
+        .then(function (data) {
+            console.log('Request succeeded with JSON response', data);
+        })
+        .catch(function (error) {
+            console.log('Request failed', error);
+        });
+}
+
+getTl();

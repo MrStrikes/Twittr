@@ -3,12 +3,18 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le :  mer. 02 mai 2018 à 16:07
+-- Généré le :  jeu. 10 mai 2018 à 03:08
 -- Version du serveur :  5.6.38
 -- Version de PHP :  7.2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Base de données :  `Twittr`
@@ -26,12 +32,19 @@ CREATE TABLE `Follow` (
   `followed_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- Déchargement des données de la table `Follow`
+-- Structure de la table `ratings`
 --
 
-INSERT INTO `Follow` (`id`, `follower_id`, `followed_id`) VALUES
-(1, 3, 1);
+CREATE TABLE `ratings` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `twtt_id` int(11) NOT NULL,
+  `rating` varchar(255) NOT NULL,
+  `profile_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -47,17 +60,6 @@ CREATE TABLE `twtts` (
   `creation` datetime NOT NULL,
   `content` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `twtts`
---
-
-INSERT INTO `twtts` (`twtt_id`, `type`, `author_id`, `rt/fav_author_id`, `creation`, `content`) VALUES
-(14, 'twtt', 1, 1, '2018-04-25 16:29:00', 'dzdzzea'),
-(15, 'twtt', 3, 3, '2018-04-26 15:36:23', 'rdgdz'),
-(16, 'twtt', 1, 1, '2018-05-02 13:26:22', 'aeionfaznijfaz'),
-(17, 'twtt', 1, 1, '2018-05-02 13:26:23', 'aeionfaznijfaz'),
-(18, 'twtt', 1, 1, '2018-05-02 13:26:23', 'aeionfaznijfaz');
 
 -- --------------------------------------------------------
 
@@ -76,14 +78,6 @@ CREATE TABLE `Users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `Users`
---
-
-INSERT INTO `Users` (`id`, `firstname`, `lastname`, `username`, `at_username`, `password`, `email`) VALUES
-(1, 'Yanis', 'Yanis', 'Yanis', 'Yanis', '$2y$10$c/bwaRuGzE0DxpVfOJ1qfuYTnKUAk2T4/XeOEtwq7AxIwyMFvejAy', 'me@yanisbendahmane.fr'),
-(3, 'Strikes', 'Strikes', 'Strikes', 'Strikes', '$2y$10$xT3r69iQF/q7zttaFwB3jOALPwu2UmfgWu4QuQiMxM0bD4rWPNb2e', 'yanis.bendahmane@supinternet.fr');
-
---
 -- Index pour les tables déchargées
 --
 
@@ -91,6 +85,12 @@ INSERT INTO `Users` (`id`, `firstname`, `lastname`, `username`, `at_username`, `
 -- Index pour la table `Follow`
 --
 ALTER TABLE `Follow`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `ratings`
+--
+ALTER TABLE `ratings`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -113,16 +113,26 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT pour la table `Follow`
 --
 ALTER TABLE `Follow`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT pour la table `ratings`
+--
+ALTER TABLE `ratings`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `twtts`
 --
 ALTER TABLE `twtts`
-  MODIFY `twtt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `twtt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT pour la table `Users`
 --
 ALTER TABLE `Users`
   MODIFY `id` int(255) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

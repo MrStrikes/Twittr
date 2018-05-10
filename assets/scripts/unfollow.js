@@ -8,8 +8,9 @@ window.addEventListener("load", () => {
     var id = new URL(url);
     var follower_id = document.querySelector('.session_id').value;
     var followed_id = id.searchParams.get("profile_id");
+    var unfollowBtn = document.querySelector('.unfollow-btn');
 
-    document.querySelector('.unfollow-btn').addEventListener('click', (e) => {
+    unfollowBtn.addEventListener('click', (e) => {
         e.preventDefault();
         var url = '?action=unfollow';
         fetch(url, {
@@ -23,6 +24,10 @@ window.addEventListener("load", () => {
             .then(json)
             .then((data) => {
             console.log('Request succeeded with JSON response', data);
+            unfollowBtn.innerHTML = "<a>Follow user</a>";
+            unfollowBtn.setAttribute("href", "?action=follow")
+            unfollowBtn.classList.add('follow-btn');
+            unfollowBtn.classList.remove('unfollow-btn');
         })
         .catch((error) => {
             console.log('Request failed', error);

@@ -98,4 +98,11 @@ class UserController extends BaseController
         $unfollow = $userManager->unfollowUser($_POST['follower_id'], $_POST['followed_id']);
         return json_encode($unfollow);
     }
+
+    public function manageRatingsAction()
+    {
+        $userManager = new UserManager();
+        $manageRating = $userManager->manageRatings($_POST['twtt_id'], $_POST['rating'], $_POST['profile_id'], $_SESSION['id']);
+        return json_encode($manageRating);
+    }
 }

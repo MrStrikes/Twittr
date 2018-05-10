@@ -105,11 +105,8 @@ class UserManager
             ];
             return $arr;
         } elseif($isFollowing == true) {
-            $arr = [
-                "status" => "Nope",
-                "message" => "You can't follow someone you already follow"
-            ];
-            return $arr;
+            $unfollow = $this->unfollowUser($follower, $followed);
+            return $unfollow;
         } else {
             $stmt = $pdo->prepare("INSERT INTO `follow` (`id`, `follower_id`, `followed_id`) VALUES (NULL, :follower, :followed)");
             $stmt->bindParam(':follower', $follower);
@@ -148,6 +145,64 @@ class UserManager
         $stmt->bindParam(':follower', $follower);
         $stmt->bindParam(':followed', $followed);
 
+        $stmt->execute();
+        $data = $stmt->fetch(\PDO::FETCH_BOUND);
+        return $data;
+    }
+
+    public function manageRatings($twtt_id, $rating, $userPoster, $user)
+    {
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+        $madeAction = $this->hasAlreadyMadeThisAction($twtt_id, $rating, $userPoster, $user);
+
+        if(false == $madeAction){
+            $stmt = $pdo->prepare("INSERT INTO `ratings` (`id`, `twtt_id`, `rating`, `profile_id`, `user_id`) VALUES (NULL, :twtt_id, :rating, :profile_id, :user_id)");
+            $stmt->bindParam(':twtt_id', $twtt_id);
+            $stmt->bindParam(':rating', $rating);
+            $stmt->bindParam(':profile_id', $userPoster);
+            $stmt->bindParam(':user_id', $user);
+
+            $result = $stmt->execute();
+            $arr = [
+                "status" => "ok",
+                "message" => "User action has sucessfully been recorded"
+            ];
+            return $arr;
+        } else {
+            $removeRating = $this->removeRating($twtt_id, $rating, $userPoster, $user);
+            return $removeRating;
+        }
+    }
+
+    public function removeRating($twtt_id, $rating, $userPoster, $user)
+    {
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+        $stmt = $pdo->prepare("DELETE FROM `ratings` WHERE twtt_id = :twtt_id AND rating = :rating AND profile_id = :profile_id AND user_id = :user_id");
+        $stmt->bindParam(':twtt_id', $twtt_id);
+        $stmt->bindParam(':rating', $rating);
+        $stmt->bindParam(':profile_id', $userPoster);
+        $stmt->bindParam(':user_id', $user);
+
+        $stmt->execute();
+        $arr = [
+            "status" => "ok",
+            "message" => "Rating removed !"
+        ];
+        return $arr;
+    }
+
+    public function hasAlreadyMadeThisAction($twtt_id, $rating, $userPoster, $user)
+    {
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+        $stmt = $pdo->prepare("SELECT * FROM `ratings` WHERE twtt_id = :twtt_id AND rating = :rating AND profile_id = :profile_id AND user_id = :user_id");
+        $stmt->bindParam(':twtt_id', $twtt_id);
+        $stmt->bindParam(':rating', $rating);
+        $stmt->bindParam(':profile_id', $userPoster);
+        $stmt->bindParam(':user_id', $user);
+        
         $stmt->execute();
         $data = $stmt->fetch(\PDO::FETCH_BOUND);
         return $data;

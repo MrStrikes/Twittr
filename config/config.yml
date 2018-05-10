@@ -10,3 +10,4 @@ routes:
     follow: "User:follow"
     unfollow: "User:unfollow"
     getMainTl: "Twtt:getMainTl"
+    manageRatings: "User:manageRatings"

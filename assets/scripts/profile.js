@@ -1,11 +1,11 @@
-function json(response){
+function json(response) {
     return response.json();
 }
 
 /**
  * @param {domEl} domEl string
  */
-function loadActions(domEl){
+function loadActions(domEl) {
     let action = document.querySelector(domEl);
     let url_string = window.location.href;
     let getUrl = new URL(url_string);
@@ -22,13 +22,13 @@ function loadActions(domEl){
             body: `twtt_id=${value}&rating=${rating}&profile_id=${profile_id}`,
             credentials: 'include'
         })
-        .then(json)
-        .then((data) => {
-            console.log('Request succeeded with JSON response', data);
-        })
-        .catch((error) => {
-            console.log('Request failed', error);
-        });
+            .then(json)
+            .then((data) => {
+                console.log('Request succeeded with JSON response', data);
+            })
+            .catch((error) => {
+                console.log('Request failed', error);
+            });
     });
 }
 
@@ -44,20 +44,22 @@ window.onload = function () {
         body: `profile_id=${profile_id}`,
         credentials: 'include'
     })
-    .then(json)
-    .then((data) => {
-        let tl = document.querySelector('.tl-profile');
-        for (let a in data){
-            if ('twtt' === data[a].type){
-                tl.prepend(newTwtt(data[a].author.at_username, data[a].author.username, data[a].author.id, data[a].creation, data[a].content, data[a].twtt_id));
-            } else if ('retwtt' === data[a].type){
-                tl.prepend(newRtwtt(data[a].author.at_username, data[a].author.username, data[a].author.id, data[a].creation, data[a].content, data[a]['rt/fav_author_id'], data[a].author_rt.at_username, data[a].author_rt.username, data[a].twtt_id));
+        .then(json)
+        .then((data) => {
+            let tl = document.querySelector('.tl-profile');
+            for (let a in data) {
+                console.log(data[a]);
+                if ('re_twtt' === data[a]['type']) {
+                    tl.prepend(newRtwtt(data[a]['twtt']['user_id']['at_username'], data[a]['twtt']['user_id']['username'], data[a]['twtt']['user_id']['id'], data[a]['twtt']['creation'], data[a]['twtt']['content'], data[a]['user_id']['id'], data[a]['user_id']['at_username'], data[a]['user_id']['username'], data[a]['twtt_id']));
+                } else {
+                    tl.prepend(newTwtt(data[a]['user_id']['at_username'], data[a]['user_id']['username'], data[a]['user_id']['id'], data[a]['creation'], data[a]['content'], data[a]['twtt_id']));
+                }
+
+                loadActions('.rt');
+                loadActions('.star');
             }
-            loadActions('.rt');
-            loadActions('.star');
-        }
-    })
-    .catch((error) => {
-        console.log('Request failed', error);
-    });
+        })
+        .catch((error) => {
+            console.log('Request failed', error);
+        });
 };

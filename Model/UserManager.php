@@ -10,23 +10,55 @@ class UserManager
     public function registerUser($firstname, $lastname, $username, $password, $repeatPassword, $email)
     {
         $errors = [];
-        if (strlen($firstname) < 4){
-            $errors[] = 'Firstname too short';
+        $usernameExists = $this->usernameExists($username);
+        $emailExists = $this->emailExists($email);
+        if (strlen($firstname) < 2){
+            $errors = [
+                "status" => "failed",
+                "message" => 'Firstname too short'
+            ];
         }
-        if (strlen($lastname) < 4){
-            $errors[] = 'Lastname too short';
+        if (strlen($lastname) < 2){
+            $errors = [
+                "status" => "failed",
+                "message" => "Lastname too short"
+            ];
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            $errors[] = 'Invalid Email';
+            $errors = [
+                "status" => "failed",
+                "message" => "Invalid Email"
+            ];
         }
-        if((strlen($username) < 4) || (strlen($username) > 30)){
-            $errors[] = 'Pseudo too short or too long';
+        if(strlen($username) < 4){
+            $errors = [
+                "status" => "failed",
+                "message" => "Username too short"
+            ];
         }
-        if(strlen($password) < 4 || strlen($password) > 30){
-            $errors[] = 'Password too short or too long';
+        if(strlen($password) < 4){
+            $errors = [
+                "status" => "failed",
+                "message" => "Password too short"
+            ];
         }
         if($password !== $repeatPassword){
-            $errors[] = 'Password must be identical to the verification';
+            $errors = [
+                "status" => "failed",
+                "message" => "Password must be identicals"
+            ];
+        }
+        if($usernameExists){
+            $errors = [
+                "status" => "failed",
+                "message" => "Username already exists"
+            ];
+        }
+        if($emailExists){
+            $errors = [
+                "status" => "failed",
+                "message" => "Email already used"
+            ];
         }
         if(empty($errors)) {
             $dbm = DBManager::getInstance();
@@ -72,6 +104,28 @@ class UserManager
             $_SESSION['id'] = $result['id'];
             return true;
         }
+    }
+
+    public function usernameExists($username){
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+        $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE username = :username");
+        $stmt->bindParam(':username', $username);
+
+        $stmt->execute();
+        $data = $stmt->fetch(\PDO::FETCH_BOUND);
+        return $data;
+    }
+
+    public function emailExists($email){
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+        $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE email = :email");
+        $stmt->bindParam(':email', $email);
+
+        $stmt->execute();
+        $data = $stmt->fetch(\PDO::FETCH_BOUND);
+        return $data;
     }
 
     public function getUserById($id)
@@ -164,6 +218,11 @@ class UserManager
             $stmt->bindParam(':user_id', $user);
 
             $result = $stmt->execute();
+
+            if ("rt" == $rating){
+                $twttManager = new TwttManager();
+                $twttManager->newReTwtt($twtt_id);
+            }
             $arr = [
                 "status" => "ok",
                 "message" => "User action has sucessfully been recorded"

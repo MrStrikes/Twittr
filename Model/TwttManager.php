@@ -3,6 +3,7 @@
 namespace Model;
 
 use Cool\DBManager;
+use DateTime;
 
 class TwttManager
 {
@@ -43,10 +44,48 @@ class TwttManager
     {
         $dbm = DBManager::getInstance();
         $pdo = $dbm->getPdo();
-        $stmt = $pdo->prepare('SELECT * FROM `twtts` WHERE `rt/fav_author_id` = ?');
-        $stmt->execute([$id]);
-        $result = $stmt->fetchAll();
-        return array_reverse($result);
+        $stmt = $pdo->prepare('SELECT * FROM `twtts` WHERE user_id = :id');
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $result = $stmt->fetchAll(2);
+
+        $stmt = $pdo->prepare('SELECT * FROM `re_twtts` WHERE user_id = :id');
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $result = array_merge($result, $stmt->fetchAll(2));
+
+        $userManager = new UserManager();
+
+        for ($a = 0; $a < sizeof($result); $a++) {
+            $result[$a]['user_id'] = $userManager->getUserById($result[$a]['user_id']);
+            unset($result[$a]['user_id']['firstname']);
+            unset($result[$a]['user_id']['lastname']);
+            unset($result[$a]['user_id']['password']);
+            unset($result[$a]['user_id']['email']);
+            $result[$a]['type'] = 'twtt';
+            if (isset($result[$a]['re_twtt_id'])) {
+                $result[$a]['twtt'] = $this->getTwttById($result[$a]['twtt_id']);
+                $result[$a]['twtt']['user_id'] = $userManager->getUserById($result[$a]['twtt']['user_id']);
+                unset($result[$a]['twtt']['user_id']['firstname']);
+                unset($result[$a]['twtt']['user_id']['lastname']);
+                unset($result[$a]['twtt']['user_id']['password']);
+                unset($result[$a]['twtt']['user_id']['email']);
+                $result[$a]['type'] = 're_twtt';
+            }
+        }
+
+        usort($result, function($a, $b) {
+            $ad = new DateTime($a['creation']);
+            $bd = new DateTime($b['creation']);
+
+            if ($ad == $bd) {
+                return 0;
+            }
+
+            return $ad < $bd ? -1 : 1;
+        });
+
+        return $result;
     }
 
     public function getTwttForHome()
@@ -56,10 +95,10 @@ class TwttManager
         $stmt = $pdo->prepare('SELECT followed_id FROM `follow` WHERE `follower_id` = ?');
         $stmt->execute([$_SESSION['id']]);
         $follows = $stmt->fetchAll(2);
-        foreach ($follows as $i){
-               $a[] = $i['followed_id'];
+        foreach ($follows as $i) {
+            $a[] = $i['followed_id'];
         }
-        $follows = join("','",$a);
+        $follows = join("','", $a);
         $follows = "'" . $follows . "'";
 
         $pdo = $dbm->getPdo();
@@ -68,4 +107,15 @@ class TwttManager
         $result = $stmt->fetchAll(2);
         return $result;
     }
+
+    public function getTwttById($id)
+    {
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+        $stmt = $pdo->prepare('SELECT * FROM `twtts` WHERE twtt_id = :id');
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(2);
+    }
+
 }

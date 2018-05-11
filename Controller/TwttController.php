@@ -16,7 +16,7 @@ class TwttController extends BaseController
             return json_encode("error");
         } else {
             $twttManager = new TwttManager();
-            $twttManager->newTwitt($content);
+            $twttManager->newTwtt($content);
             return true;
         }
     }

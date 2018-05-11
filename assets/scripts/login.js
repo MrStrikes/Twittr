@@ -44,7 +44,13 @@ window.addEventListener('load', () => {
         .then(json)
         .then((data) => {
             console.log('Request succeeded with JSON response', data);
-            alert(`Welcome to Twittr ${username.value}`);
+            if(data.status === "ok"){
+                $("#login-form").delay(100).fadeIn(100);
+                    $("#register-form").fadeOut(100);
+                $('#register-form-link').removeClass('active');
+                $(this).addClass('active');
+                alert("You can now login into Twttr !");
+            }
         })
         .catch((error) => {
             console.log('Request failed', error);

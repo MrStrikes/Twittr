@@ -20,6 +20,25 @@ class TwttManager
         $result->execute();
     }
 
+    public function newReTwtt($twttId)
+    {
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+        $result = $pdo->prepare('INSERT INTO `re_twtts` (`re_twtt_id`, `twtt_id`, `user_id`) VALUES (NULL, :twtt_id, :user_id)');
+        $result->bindParam(':twtt_id', $twttId);
+        $result->bindParam(':user_id', $_SESSION['id']);
+        $result->execute();
+    }
+
+    public function deleteReTwtt($reTwttId)
+    {
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+        $result = $pdo->prepare('DELETE FROM `re_twtts` WHERE re_twtt_id = :re_twtt_id');
+        $result->bindParam(':re_twtt_id', $reTwttId);
+        $result->execute();
+    }
+
     public function getTwttForProfile($id)
     {
         $dbm = DBManager::getInstance();

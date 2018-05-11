@@ -164,6 +164,11 @@ class UserManager
             $stmt->bindParam(':user_id', $user);
 
             $result = $stmt->execute();
+
+            if ("rt" == $rating){
+                $twttManager = new TwttManager();
+                $twttManager->newReTwtt($twtt_id);
+            }
             $arr = [
                 "status" => "ok",
                 "message" => "User action has sucessfully been recorded"

@@ -6,16 +6,17 @@
     <title>{% block page_title %}Twttr{% endblock %}</title>
     <link rel="stylesheet" href="assets/style.css">
     <script src="assets/scripts/script.js"></script>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 <header>
     <nav>
         <ul>
-            {% if session %}
+            {% if session is defined %}
                 <li><a href="?action=home">Home</a></li>
                 <li><a href="?action=logout">Logout</a></li>
-            {% else %}
-            <li><a href="?action=login">Login</a></li>
             {% endif %}
         </ul>
     </nav>

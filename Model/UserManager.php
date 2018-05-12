@@ -266,4 +266,51 @@ class UserManager
         $data = $stmt->fetch(\PDO::FETCH_BOUND);
         return $data;
     }
+
+    public function searchUser($username){
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+        $pattern = '/^\@/';
+        $checking = preg_match($pattern, $username);
+        if($checking){
+            $user = ltrim($username, '@');
+            $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE at_username = :username");
+            $stmt->bindParam(':username', $user);
+            $stmt->execute();
+            $data = $stmt->fetch(\PDO::FETCH_ASSOC);
+            if($data == false){
+                $arr = [
+                    "status" => "Err",
+                    "message" => "Username not found"
+                ];
+                return $arr;
+            } else {
+                $arr = [
+                    "status" => "Yup",
+                    "message" => "Username found",
+                    "id" => $data['id']
+                ];
+                return $arr;                
+            }
+        } else {
+            $stmt = $pdo->prepare("SELECT * FROM `Users` WHERE username = :username");
+            $stmt->bindParam(':username', $username);
+            $stmt->execute();
+            $data = $stmt->fetch(\PDO::FETCH_ASSOC);
+            if($data == false){
+                $arr = [
+                    "status" => "Err",
+                    "message" => "Username not found"
+                ];
+                return $arr;
+            } else {
+                $arr = [
+                    "status" => "Yup",
+                    "message" => "Username found",
+                    "id" => $data['id']
+                ];
+                return $arr;                
+            }
+        }
+    }
 }

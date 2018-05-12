@@ -3,22 +3,36 @@ function json(response){
 } 
 
 window.addEventListener('load', () => {
+    $('#login-form-link').click(function(e) {
+        $("#login-form").delay(100).fadeIn(100);
+            $("#register-form").fadeOut(100);
+        $('#register-form-link').removeClass('active');
+        $(this).addClass('active');
+        e.preventDefault();
+    });
+    $('#register-form-link').click(function(e) {
+        $("#register-form").delay(100).fadeIn(100);
+            $("#login-form").fadeOut(100);
+        $('#login-form-link').removeClass('active');
+        $(this).addClass('active');
+        e.preventDefault();
+    });
+    
 
     /***********
     * Register *
     ***********/
-    var reg_btn = document.querySelector('#reg-btn');
+    var register = document.forms.register;
 
-    var firstname = document.querySelector('#firstname');
-    var lastname = document.querySelector('#lastname');
-    var user = document.querySelector('#username');
-    var pass = document.querySelector('#password');
-    var passwordRepeat = document.querySelector('#password_repeat');
-    var email = document.querySelector('#email');
-
-
-    reg_btn.addEventListener('click', () => {
-        var url = '?action=register';
+    register.addEventListener('submit', (ev) => {
+        ev.preventDefault();
+        let firstname = register.elements.firstname;
+        let lastname = register.elements.lastname;
+        let user = register.elements.username;
+        let pass = register.elements.password;
+        let passwordRepeat = register.elements.confirmPassword;
+        let email = register.elements.email;
+        let url = '?action=register';
         fetch(url, {
             method: 'post',
             headers: {
@@ -30,7 +44,13 @@ window.addEventListener('load', () => {
         .then(json)
         .then((data) => {
             console.log('Request succeeded with JSON response', data);
-            alert(`Welcome to Twittr ${username.value}`);
+            if(data.status === "ok"){
+                $("#login-form").delay(100).fadeIn(100);
+                    $("#register-form").fadeOut(100);
+                $('#register-form-link').removeClass('active');
+                $(this).addClass('active');
+                alert("You can now login into Twttr !");
+            }
         })
         .catch((error) => {
             console.log('Request failed', error);
@@ -41,13 +61,13 @@ window.addEventListener('load', () => {
     * LOGIN *
     ********/
 
-    var log_btn = document.querySelector('#btn-login');
+    let login = document.forms.login;
 
-    var username = document.querySelector('#pseudo');
-    var password = document.querySelector('#log-password');
-
-    log_btn.addEventListener('click', () => {
-        var url = '?action=login';
+    login.addEventListener('submit', (ev) => {
+        ev.preventDefault();
+        let username = login.elements.username;
+        let password = login.elements.password;
+        let url = '?action=login';
         fetch(url, {
             method: 'post',
             headers: {

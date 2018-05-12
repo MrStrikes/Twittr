@@ -1,36 +1,79 @@
 {% extends 'layout.html.twig' %}
 {% block page_title %}{{ parent() }} - Login{% endblock %}
 {% block content %}
-<div class="login">
-        <div class="error">
+<link rel="stylesheet" href="./assets/login.css">
+    <div class="error">
             {{ error }}
         </div>
-        <label for="pseudo">Pseudo : </label>
-        <input type="text" name="pseudo" placeholder="Pseudo" id="pseudo"><br>
-        <label for="lg-passwors">Password : </label>
-        <input type="password" name="lg-password" placeholder="Password" id="log-password"><br>
-        <button id="btn-login">Login</button>
-    </div>
-    <hr>
     <div class="errors">
         {% for error in errors %}
             {{ error }} <br>
         {% endfor %}
     </div>
-    <div class="register">
-        <label for="firstname">Firstname :</label>
-        <input type="text" name="firstname" placeholder="Firstname" id="firstname"><br>
-        <label for="lastname">Lastname :</label>
-        <input type="text" name="lastname" placeholder="Lastname" id="lastname"><br>
-        <label for="username">Username :</label>
-        <input type="text" name="username" placeholder="Username" id="username"><br>
-        <label for="password">Password :</label>
-        <input type="password" name="password" placeholder="Password" id="password"><br>
-        <label for="password_repeat">Password Repeat :</label>
-        <input type="password" name="password_repeat" placeholder="Password" id="password_repeat"><br>
-        <label for="email">E-Mail :</label>
-        <input type="text" name="email" placeholder="Email" id="email"><br>
-        <button id="reg-btn" name="submit">Register</button>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-login">
+                <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form name="login" id="login-form" action="?action=login" method="post" role="form" style="display: block;">
+                            <h2>LOGIN</h2>
+                            <div class="form-group">
+                                <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                            </div>
+                            <div class="col-xs-6 form-group pull-right">     
+                                <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+                            </div>
+                        </form>
+                        <form name="register" id="register-form" action="?action=register" method="post" role="form" style="display: none;">
+                            <h2>REGISTER</h2>
+                            <div class="form-group">
+                                <input type="text" name="firstname" id="firstname" tabindex="1" class="form-control" placeholder="Firstname" value="">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="lastname" id="lastname" tabindex="1" class="form-control" placeholder="Lastname" value="">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="confirmPassword" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" id="email" tabindex="2" class="form-control" placeholder="Email Address">
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                <div class="col-sm-6 col-sm-offset-3">
+                                    <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-6 tabs">
+                    <a href="#" class="active" id="login-form-link"><div class="login">LOGIN</div></a>
+                    </div>
+                    <div class="col-xs-6 tabs">
+                    <a href="#" id="register-form-link"><div class="register">REGISTER</div></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
     </div>
 {% endblock %}
 {% block script %}

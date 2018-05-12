@@ -11,3 +11,4 @@ routes:
     unfollow: "User:unfollow"
     getMainTl: "Twtt:getMainTl"
     manageRatings: "User:manageRatings"
+    searchUser: "User:searchUser"

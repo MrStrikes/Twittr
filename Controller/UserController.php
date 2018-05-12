@@ -105,4 +105,11 @@ class UserController extends BaseController
         $manageRating = $userManager->manageRatings($_POST['twtt_id'], $_POST['rating'], $_SESSION['id'], $_POST['re_twtt_id']);
         return json_encode($manageRating);
     }
+
+    public function searchUserAction()
+    {
+        $userManager = new UserManager();
+        $searchUser = $userManager->searchUser($_POST['username']);
+        return json_encode($searchUser);
+    }
 }

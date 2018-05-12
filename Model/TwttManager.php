@@ -43,6 +43,18 @@ class TwttManager
         $result->execute();
     }
 
+    public function getNumberOfRating($twtt_id, $type)
+    {
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+        $stmt = $pdo->prepare('SELECT * FROM `ratings` WHERE twtt_id = :twtt_id AND rating = :ratingType');
+        $stmt->bindParam(':twtt_id', $twtt_id);
+        $stmt->bindParam(':ratingType', $type);
+        $stmt->execute();
+        $result = $stmt->fetchAll(2);
+        return sizeof($result);
+    }
+
     public function getTwttForProfile($id)
     {
         $dbm = DBManager::getInstance();
@@ -59,8 +71,11 @@ class TwttManager
 
         $userManager = new UserManager();
 
+
         for ($a = 0; $a < sizeof($result); $a++) {
             $result[$a]['user_id'] = $userManager->getUserById($result[$a]['user_id']);
+            $result[$a]['rt'] = $this->getNumberOfRating($result[$a]['twtt_id'], 'rt');
+            $result[$a]['fav'] = $this->getNumberOfRating($result[$a]['twtt_id'], 'star');
             unset($result[$a]['user_id']['firstname']);
             unset($result[$a]['user_id']['lastname']);
             unset($result[$a]['user_id']['password']);

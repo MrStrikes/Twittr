@@ -4,6 +4,10 @@
 
 {% block content %}
     <main>
+        <form action="?action=searchUser" name="searchUser" class="userSearch">
+            <input type="text" name="username">
+            <input type="submit" name="submit" value="Search user">
+        </form> 
         <div class="new-twtt">
             <textarea name="new-twtt" cols="100" rows="5"></textarea><br>
             <button name="new-twtt">Twtter</button>
@@ -15,5 +19,6 @@
 {% endblock %}
 
 {% block script %}
+    <script src="./assets/scripts/search.js"></script>
     <script src="./assets/scripts/home.js"></script>
 {% endblock %}

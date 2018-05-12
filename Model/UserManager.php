@@ -150,7 +150,7 @@ class UserManager
         return $data;
     }
 
-    public function manageRatings($twtt_id, $rating, $userPoster, $user)
+    public function manageRatings($twtt_id, $rating, $userPoster, $user, $reTwttId)
     {
         $dbm = DBManager::getInstance();
         $pdo = $dbm->getPdo();
@@ -175,6 +175,8 @@ class UserManager
             ];
             return $arr;
         } else {
+            $twttManager = new TwttManager();
+            $twttManager->deleteReTwtt($reTwttId);
             $removeRating = $this->removeRating($twtt_id, $rating, $userPoster, $user);
             return $removeRating;
         }

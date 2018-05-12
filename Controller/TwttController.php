@@ -33,24 +33,8 @@ class TwttController extends BaseController
     public function getMainTlAction()
     {
         $twttManager = new TwttManager();
-        $userManager = new UserManager();
-
         $tl = $twttManager->getTwttForHome();
         $tl = array_reverse($tl);
-        for ($i = 0; $i < sizeof($tl); $i++){
-            $tl[$i]['author'] = $userManager->getUserById($tl[$i]['author_id']);
-            if ("retwtt" == $tl[$i]['type']){
-                $tl[$i]['author_rt'] = $userManager->getUserById($tl[$i]['rt/fav_author_id']);
-                unset($tl[$i]['author_rt']['email']);
-                unset($tl[$i]['author_rt']['password']);
-                unset($tl[$i]['author_rt']['firstname']);
-                unset($tl[$i]['author_rt']['lastname']);
-            }
-            unset($tl[$i]['author']['email']);
-            unset($tl[$i]['author']['password']);
-            unset($tl[$i]['author']['firstname']);
-            unset($tl[$i]['author']['lastname']);
-        }
         $tweet = json_encode($tl, JSON_PRETTY_PRINT, 9999);
         return $tweet;
     }

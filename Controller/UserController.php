@@ -102,7 +102,7 @@ class UserController extends BaseController
     public function manageRatingsAction()
     {
         $userManager = new UserManager();
-        $manageRating = $userManager->manageRatings($_POST['twtt_id'], $_POST['rating'], $_POST['profile_id'], $_SESSION['id']);
+        $manageRating = $userManager->manageRatings($_POST['twtt_id'], $_POST['rating'], $_SESSION['id'], $_POST['re_twtt_id']);
         return json_encode($manageRating);
     }
 

@@ -21,12 +21,13 @@ class TwttManager
         $result->execute();
     }
 
-    public function newReTwtt($twttId)
+    public function newReTwtt($twttId, $id)
     {
         $creation = date('Y-m-d H:i:s');
         $dbm = DBManager::getInstance();
         $pdo = $dbm->getPdo();
-        $result = $pdo->prepare('INSERT INTO `re_twtts` (`re_twtt_id`, `twtt_id`, `user_id`, `creation`) VALUES (NULL, :twtt_id, :user_id, :creation)');
+        $result = $pdo->prepare('INSERT INTO `re_twtts` (`re_twtt_id`, `twtt_id`, `user_id`, `creation`) VALUES (:id, :twtt_id, :user_id, :creation)');
+        $result->bindParam(':id', $id);
         $result->bindParam(':twtt_id', $twttId);
         $result->bindParam(':user_id', $_SESSION['id']);
         $result->bindParam(':creation', $creation);

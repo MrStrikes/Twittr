@@ -10,25 +10,25 @@ class UserManager
     public function registerUser($firstname, $lastname, $username, $password, $repeatPassword, $email)
     {
         $errors = [];
-        if (strlen($firstname) < 4){
+        if (strlen($firstname) < 4) {
             $errors[] = 'Firstname too short';
         }
-        if (strlen($lastname) < 4){
+        if (strlen($lastname) < 4) {
             $errors[] = 'Lastname too short';
         }
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors[] = 'Invalid Email';
         }
-        if((strlen($username) < 4) || (strlen($username) > 30)){
+        if ((strlen($username) < 4) || (strlen($username) > 30)) {
             $errors[] = 'Pseudo too short or too long';
         }
-        if(strlen($password) < 4 || strlen($password) > 30){
+        if (strlen($password) < 4 || strlen($password) > 30) {
             $errors[] = 'Password too short or too long';
         }
-        if($password !== $repeatPassword){
+        if ($password !== $repeatPassword) {
             $errors[] = 'Password must be identical to the verification';
         }
-        if(empty($errors)) {
+        if (empty($errors)) {
             $dbm = DBManager::getInstance();
             $pdo = $dbm->getPdo();
             $hashedPwd = password_hash($password, PASSWORD_BCRYPT);
@@ -40,7 +40,7 @@ class UserManager
             $stmt->bindParam(':at_username', $username);
             $stmt->bindParam(':password', $hashedPwd);
             $stmt->bindParam(':email', $email);
-            
+
             $stmt->execute();
             $errors = true;
         }
@@ -63,7 +63,7 @@ class UserManager
 
         $stmt->execute();
         $result = $stmt->fetch();
-        if(!password_verify($password, $result['password'])){
+        if (!password_verify($password, $result['password'])) {
             $errors = 'Invalid username or password';
             return $errors;
         } else {
@@ -92,19 +92,19 @@ class UserManager
         $dbm = DBManager::getInstance();
         $pdo = $dbm->getPdo();
         $isFollowing = $this->isFollowing($follower, $followed);
-        if($follower == $followed){
+        if ($follower == $followed) {
             $arr = [
                 "status" => "Nope",
                 "message" => "You can't follow yourself dude"
             ];
             return $arr;
-        } elseif($_SESSION['id'] != $follower) {
+        } elseif ($_SESSION['id'] != $follower) {
             $arr = [
                 "status" => "Nope",
                 "message" => "You can't follow as someone else dude"
             ];
             return $arr;
-        } elseif($isFollowing == true) {
+        } elseif ($isFollowing == true) {
             $unfollow = $this->unfollowUser($follower, $followed);
             return $unfollow;
         } else {
@@ -150,24 +150,32 @@ class UserManager
         return $data;
     }
 
-    public function manageRatings($twtt_id, $rating, $userPoster, $user, $reTwttId)
+    public function manageRatings($twtt_id, $rating, $user, $reTwttId)
     {
         $dbm = DBManager::getInstance();
         $pdo = $dbm->getPdo();
-        $madeAction = $this->hasAlreadyMadeThisAction($twtt_id, $rating, $userPoster, $user);
+        $madeAction = $this->hasAlreadyMadeThisAction($twtt_id, $rating, $user);
 
-        if(false == $madeAction){
-            $stmt = $pdo->prepare("INSERT INTO `ratings` (`id`, `twtt_id`, `rating`, `profile_id`, `user_id`) VALUES (NULL, :twtt_id, :rating, :profile_id, :user_id)");
+        if (false == $madeAction) {
+            $stmt = $pdo->prepare("INSERT INTO `ratings` (`id`, `twtt_id`, `rating`, `user_id`) VALUES (NULL, :twtt_id, :rating, :user_id)");
             $stmt->bindParam(':twtt_id', $twtt_id);
             $stmt->bindParam(':rating', $rating);
-            $stmt->bindParam(':profile_id', $userPoster);
             $stmt->bindParam(':user_id', $user);
 
-            $result = $stmt->execute();
+            $stmt->execute();
 
-            if ("rt" == $rating){
+            $stmt = $pdo->prepare("SELECT * FROM `ratings` ORDER BY  id DESC LIMIT 1");
+            $stmt->execute();
+            $result = $stmt->fetch(2);
+
+            if ("rt" == $rating) {
+
+                $stmt = $pdo->prepare("SELECT * FROM `ratings` ORDER BY  id DESC LIMIT 1");
+                $stmt->execute();
+                $result = $stmt->fetch(2);
+
                 $twttManager = new TwttManager();
-                $twttManager->newReTwtt($twtt_id);
+                $twttManager->newReTwtt($twtt_id, $result['id']);
             }
             $arr = [
                 "status" => "ok",
@@ -176,20 +184,26 @@ class UserManager
             return $arr;
         } else {
             $twttManager = new TwttManager();
-            $twttManager->deleteReTwtt($reTwttId);
-            $removeRating = $this->removeRating($twtt_id, $rating, $userPoster, $user);
+            $stmt = $pdo->prepare("SELECT * FROM `ratings` WHERE twtt_id = :twtt_id AND rating = :rating AND user_id = :user_id");
+            $stmt->bindParam(':twtt_id', $twtt_id);
+            $stmt->bindParam(':rating', $rating);
+            $stmt->bindParam(':user_id', $user);
+            $stmt->execute();
+            $result = $stmt->fetch(2);
+            $twttManager->deleteReTwtt($result['id']);
+
+            $removeRating = $this->removeRating($twtt_id, $rating, $user);
             return $removeRating;
         }
     }
 
-    public function removeRating($twtt_id, $rating, $userPoster, $user)
+    public function removeRating($twtt_id, $rating, $user)
     {
         $dbm = DBManager::getInstance();
         $pdo = $dbm->getPdo();
-        $stmt = $pdo->prepare("DELETE FROM `ratings` WHERE twtt_id = :twtt_id AND rating = :rating AND profile_id = :profile_id AND user_id = :user_id");
+        $stmt = $pdo->prepare("DELETE FROM `ratings` WHERE twtt_id = :twtt_id AND rating = :rating AND user_id = :user_id");
         $stmt->bindParam(':twtt_id', $twtt_id);
         $stmt->bindParam(':rating', $rating);
-        $stmt->bindParam(':profile_id', $userPoster);
         $stmt->bindParam(':user_id', $user);
 
         $stmt->execute();
@@ -200,16 +214,15 @@ class UserManager
         return $arr;
     }
 
-    public function hasAlreadyMadeThisAction($twtt_id, $rating, $userPoster, $user)
+    public function hasAlreadyMadeThisAction($twtt_id, $rating, $user)
     {
         $dbm = DBManager::getInstance();
         $pdo = $dbm->getPdo();
-        $stmt = $pdo->prepare("SELECT * FROM `ratings` WHERE twtt_id = :twtt_id AND rating = :rating AND profile_id = :profile_id AND user_id = :user_id");
+        $stmt = $pdo->prepare("SELECT * FROM `ratings` WHERE twtt_id = :twtt_id AND rating = :rating AND user_id = :user_id");
         $stmt->bindParam(':twtt_id', $twtt_id);
         $stmt->bindParam(':rating', $rating);
-        $stmt->bindParam(':profile_id', $userPoster);
         $stmt->bindParam(':user_id', $user);
-        
+
         $stmt->execute();
         $data = $stmt->fetch(\PDO::FETCH_BOUND);
         return $data;

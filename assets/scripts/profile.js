@@ -51,9 +51,9 @@ window.onload = function () {
             for (let a in data) {
                 console.log(data[a]);
                 if ('re_twtt' === data[a]['type']) {
-                    tl.prepend(newRtwtt(data[a]['twtt']['user_id']['at_username'], data[a]['twtt']['user_id']['username'], data[a]['twtt']['user_id']['id'], data[a]['twtt']['creation'], data[a]['twtt']['content'], data[a]['user_id']['id'], data[a]['user_id']['at_username'], data[a]['user_id']['username'], data[a]['twtt_id'], data[a]['re_twtt_id']));
+                    tl.prepend(newRtwtt(data[a]['twtt']['user_id']['at_username'], data[a]['twtt']['user_id']['username'], data[a]['twtt']['user_id']['id'], data[a]['twtt']['creation'], data[a]['twtt']['content'], data[a]['user_id']['id'], data[a]['user_id']['at_username'], data[a]['user_id']['username'], data[a]['twtt_id'], data[a]['re_twtt_id'], data[a]['rt'], data[a]['fav']));
                 } else {
-                    tl.prepend(newTwtt(data[a]['user_id']['at_username'], data[a]['user_id']['username'], data[a]['user_id']['id'], data[a]['creation'], data[a]['content'], data[a]['twtt_id']));
+                    tl.prepend(newTwtt(data[a]['user_id']['at_username'], data[a]['user_id']['username'], data[a]['user_id']['id'], data[a]['creation'], data[a]['content'], data[a]['twtt_id'], data[a]['rt'], data[a]['fav']));
                 }
 
                 loadActions('.rt');

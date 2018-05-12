@@ -17,6 +17,7 @@
             {% if session is defined %}
                 <li><a href="?action=home">Home</a></li>
                 <li><a href="?action=logout">Logout</a></li>
+                <li><a href="?action=profile&amp;profile_id={{ session.id }}">Profile</a></li>
             {% endif %}
         </ul>
     </nav>

@@ -54,7 +54,6 @@ window.onload = function () {
                 } else {
                     tl.prepend(newTwtt(data[a]['user_id']['at_username'], data[a]['user_id']['username'], data[a]['user_id']['id'], data[a]['creation'], data[a]['content'], data[a]['twtt_id'], data[a]['rt'], data[a]['fav']));
                 }
-
                 loadActions('.rt');
                 loadActions('.star');
             }

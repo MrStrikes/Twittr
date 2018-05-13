@@ -1,0 +1,40 @@
+.twtt{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    height: auto;
+    border: solid 1px;
+    margin-top: -1px;
+}
+
+.twtt:hover{background-color: #F5F5F5;}
+
+.rtwtt-msg{
+    font-size: 1rem;
+    color: #D3D3D3;
+}
+
+.rtwtt-msg:hover{color: inherit;}
+
+.profile-head{text-align: center}
+
+.date{
+    font-size: 1rem;
+    color: #D3D3D3;
+}
+
+.date:hover{color: inherit;}
+
+.actions{text-align: center;}
+
+.follow-btn, .unfollow-btn{
+    border: solid 1px #000;
+    border-radius: 100px;
+    padding: .3%;
+}
+
+.follow-btn:hover, .unfollow-btn:hover{
+    text-decoration: none;
+    background-color: #F5F5F5;
+}

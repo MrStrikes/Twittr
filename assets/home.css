@@ -1,0 +1,39 @@
+.new-twtt > button{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.new-twtt > textarea{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    resize: none;
+    width: 30%;
+    border-radius: 10px;
+}
+
+.tl{min-height: 100%; width: auto;}
+
+.twtt{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    height: auto;
+    border: solid 1px;
+    margin-top: -1px;
+}
+
+.twtt:hover{
+    background-color: #F5F5F5;
+}
+
+.rtwtt-msg{
+    font-size: 1rem;
+    color: #D3D3D3;
+}
+
+.rtwtt-msg:hover{
+    color: inherit;
+}

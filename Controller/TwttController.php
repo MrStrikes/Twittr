@@ -12,8 +12,8 @@ class TwttController extends BaseController
     public function newTwttAction()
     {
         $content = json_decode($_POST['content']);
-        if (0 == strlen($content)){
-            return json_encode("error");
+        if (0 == strlen($content) || 140 < strlen($content)){
+            return json_encode(['err' => 'error']);
         } else {
             $twttManager = new TwttManager();
             $twttManager->newTwtt($content);

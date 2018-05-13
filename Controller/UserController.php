@@ -55,13 +55,13 @@ class UserController extends BaseController
             if ($getUserData !== true) {
                 $arr = [
                     'status' => 'failed',
-                    'state' => 'There was a problem loggin in the user'
+                    'message' => 'There was a problem loggin in the user'
                 ];
                 return json_encode($arr);
             } else {
                 $arr = [
                     'status' => 'ok',
-                    'state' => 'The user has successfully been logged in'
+                    'message' => 'The user has successfully been logged in'
                 ];
                 return json_encode($arr);
             }

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.11/css/all.css">
     <title>{% block page_title %}Twttr{% endblock %}</title>
-    <link rel="stylesheet" href="assets/style.css">
-    <script src="assets/scripts/script.js"></script>
+    <link rel="stylesheet" href="./assets/style.css">
+    <script src="./assets/scripts/script.js"></script>
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -13,11 +13,15 @@
 <body>
 <header>
     <nav>
-        <ul>
+        <ul class="nav">
             {% if session is defined %}
-                <li><a href="?action=home">Home</a></li>
-                <li><a href="?action=logout">Logout</a></li>
-                <li><a href="?action=profile&amp;profile_id={{ session.id }}">Profile</a></li>
+                <li class="head-link"><a href="?action=home">Home</a></li>
+                <li class="head-link"><a href="?action=logout">Logout</a></li>
+                <li class="head-link"><a href="?action=profile&amp;profile_id={{ session.id }}">Profile</a></li>
+                <form action="?action=searchUser" name="searchUser" class="userSearch">
+                    <input type="text" name="username" required>
+                    <input type="submit" name="submit" value="Search user">
+                </form>
             {% endif %}
         </ul>
     </nav>

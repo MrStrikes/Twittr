@@ -91,8 +91,7 @@ class UserManager
         $dbm = DBManager::getInstance();
         $pdo = $dbm->getPdo();
 
-        $stmt = $pdo->prepare("SELECT * FROM Users 
-        WHERE username = :username");
+        $stmt = $pdo->prepare("SELECT * FROM Users WHERE username = :username");
         $stmt->bindParam(':username', $user);
 
         $stmt->execute();

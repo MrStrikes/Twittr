@@ -1,4 +1,29 @@
-small
-{
-    color: purple;
+.nav{
+    background-color: #F5F5F5;
+}
+
+.nav{
+    display: grid;
+    grid-template-columns: repeat(4, 10%) 57%;
+}
+
+.nav > form{
+    text-align: right;
+    margin-bottom: auto;
+    margin-top: auto;
+}
+
+.nav > .head-link::after {
+    content: '';
+    display: block;
+    margin: auto;
+    height: 3px;
+    width: 0px;
+    background: transparent;
+    transition: width .5s ease-out, background-color .5s ease-out;
+}
+
+.nav > .head-link:hover::after {
+    width: 100%;
+    background: #66b6fc;
 }

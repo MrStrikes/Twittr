@@ -16,6 +16,7 @@
 {% endblock %}
 
 {% block script %}
+    <script src="./assets/scripts/search.js"></script>
     <script src="./assets/scripts/profile.js"></script>
     {% if userInfo['id'] != session['id'] and isFollowing == false %}
         <script src="./assets/scripts/follow.js"></script>

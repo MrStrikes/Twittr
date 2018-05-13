@@ -11,12 +11,14 @@ class TwttController extends BaseController
 
     public function newTwttAction()
     {
+        $logs = new BaseController();
         $content = json_decode($_POST['content']);
         if (0 == strlen($content) || 140 < strlen($content)){
             return json_encode(['err' => 'error']);
         } else {
             $twttManager = new TwttManager();
             $twttManager->newTwtt($content);
+            $logs->logs("logs/access.log", $_SESSION['username']." just sent a twtt");
             return true;
         }
     }

@@ -80,7 +80,7 @@ class UserController extends BaseController
         $arr = [
             "isFollowing" => $isFollowing,
             "userInfo"   => $userInfo,
-            "session"    =>$_SESSION
+            "session"    => $_SESSION
         ];
         return $this->render('profile.html.twig', $arr);
     }

@@ -23,4 +23,11 @@ class BaseController
     {
         $this->redirect('?action='.$route);
     }
+
+    protected function logs($file, $message)
+    {
+        $logs = fopen($file, 'a+');
+        fwrite($logs, $message);
+        fclose($logs);
+    }
 }

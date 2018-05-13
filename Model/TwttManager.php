@@ -103,7 +103,7 @@ class TwttManager
             return $ad < $bd ? -1 : 1;
         });
 
-        return $result;
+        return array_reverse($result);
     }
 
     public function getTwttForHome()
@@ -118,6 +118,7 @@ class TwttManager
         foreach ($follows as $i) {
             $a[] = $i['followed_id'];
         }
+        $a[] = $_SESSION['id'];
         $follows = join("','", $a);
         $follows = "'" . $follows . "'";
 
@@ -164,7 +165,7 @@ class TwttManager
             return $ad < $bd ? -1 : 1;
         });
 
-        return $result;
+        return array_reverse($result);
     }
 
     public function getTwttById($id)

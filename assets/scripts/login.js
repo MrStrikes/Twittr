@@ -50,6 +50,10 @@ window.addEventListener('load', () => {
                 $('#register-form-link').removeClass('active');
                 $(this).addClass('active');
                 alert("You can now login into Twttr !");
+            } else {
+                for(var i in data){
+                    alert(`${data[i].message}\n`);
+                }
             }
         })
         .catch((error) => {
@@ -82,7 +86,7 @@ window.addEventListener('load', () => {
             if(data.status === 'ok'){
                 window.location.href = "?action=home";
             } else {
-                alert('There is an error in your credentials, check again please');
+                alert(`${data.message}\n`);
             }
         })
         .catch((error) => {

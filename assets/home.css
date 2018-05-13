@@ -25,15 +25,11 @@
     margin-top: -1px;
 }
 
-.twtt:hover{
-    background-color: #F5F5F5;
-}
+.twtt:hover{background-color: #F5F5F5;}
 
 .rtwtt-msg{
     font-size: 1rem;
     color: #D3D3D3;
 }
 
-.rtwtt-msg:hover{
-    color: inherit;
-}
+.rtwtt-msg:hover{color: inherit;}

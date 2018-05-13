@@ -16,8 +16,8 @@
         <ul class="nav">
             {% if session is defined %}
                 <li class="head-link"><a href="?action=home">Home</a></li>
-                <li class="head-link"><a href="?action=logout">Logout</a></li>
                 <li class="head-link"><a href="?action=profile&amp;profile_id={{ session.id }}">Profile</a></li>
+                <li class="head-link"><a href="?action=logout">Logout</a></li>
                 <form action="?action=searchUser" name="searchUser" class="userSearch">
                     <input type="text" name="username" required>
                     <input type="submit" name="submit" value="Search user">

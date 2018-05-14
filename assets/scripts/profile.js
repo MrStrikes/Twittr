@@ -49,6 +49,7 @@ window.onload = function () {
         .then((data) => {
             let tl = document.querySelector('.tl-profile');
             for (let a in data) {
+                console.log(data[a]);
                 if ('re_twtt' === data[a]['type']) {
                     tl.prepend(newRtwtt(data[a]['twtt']['user_id']['at_username'], data[a]['twtt']['user_id']['username'], data[a]['twtt']['user_id']['id'], data[a]['twtt']['creation'], data[a]['twtt']['content'], data[a]['user_id']['id'], data[a]['user_id']['at_username'], data[a]['user_id']['username'], data[a]['twtt_id'], data[a]['re_twtt_id'], data[a]['rt'], data[a]['fav']));
                 } else {

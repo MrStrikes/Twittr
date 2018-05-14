@@ -66,13 +66,43 @@ function getTl() {
             let tl = document.querySelector('.tl');
             for (let a in data) {
                 console.log(data[a]);
-                if ('re_twtt' === data[a]['type']) {
-                    tl.prepend(newRtwtt(data[a]['twtt']['user_id']['at_username'], data[a]['twtt']['user_id']['username'], data[a]['twtt']['user_id']['id'], data[a]['twtt']['creation'], data[a]['twtt']['content'], data[a]['user_id']['id'], data[a]['user_id']['at_username'], data[a]['user_id']['username'], data[a]['twtt_id'], data[a]['re_twtt_id'], data[a]['rt'], data[a]['fav']));
+                if ('re_twtt' === data[a].type) {
+                    tl.prepend(newRtwtt(data[a].twtt.user_id.at_username, data[a].twtt.user_id.username, data[a].twtt.user_id.id, data[a].twtt.creation, data[a].twtt.content, data[a].user_id.id, data[a].user_id.at_username, data[a].user_id.username, data[a].twtt_id, data[a].re_twtt_id, data[a].rt, data[a].fav));
                 } else {
-                    tl.prepend(newTwtt(data[a]['user_id']['at_username'], data[a]['user_id']['username'], data[a]['user_id']['id'], data[a]['creation'], data[a]['content'], data[a]['twtt_id'], data[a]['rt'], data[a]['fav']));
+                    tl.prepend(newTwtt(data[a].user_id.at_username, data[a].user_id.username, data[a].user_id.id, data[a].creation, data[a].content, data[a].twtt_id, data[a].rt, data[a].fav));
                 }
                 loadActions('.rt');
                 loadActions('.star');
+                let rt = document.querySelector("#rt");
+                let fav = document.querySelector("#star");
+                if(data[a].isRt == true){
+                    rt.style.color = "green";
+                } else {
+                    rt.style.color = "inherit";
+                }
+                rt.addEventListener('click', () => {
+                    if(data[a].isRt == false){
+                        rt.style.color = "green";
+                        data[a].isRt = true;
+                    } else {
+                        rt.style.color = "inherit";
+                        data[a].isRt = false;
+                    }
+                });
+                if(data[a].isFav == true){
+                    fav.style.color = "orange";
+                } else {
+                    fav.style.color = "inherit";
+                }
+                fav.addEventListener('click', () => {
+                    if(data[a].isFav == false){
+                        fav.style.color = "orange";
+                        data[a].isFav = true;
+                    } else {
+                        fav.style.color = "inherit";
+                        data[a].isFav = false;
+                    }
+                });
             }
         })
         .catch(function (error) {

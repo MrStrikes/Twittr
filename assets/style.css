@@ -7,8 +7,9 @@
     grid-template-columns: repeat(4, 10%) 57%;
 }
 
-.nav > form{
-    text-align: right;
+.form-search > form{text-align: right;}
+
+.form-search{
     margin-bottom: auto;
     margin-top: auto;
 }
@@ -27,3 +28,10 @@
     width: 100%;
     background: #66b6fc;
 }
+
+.date{
+    font-size: 1rem;
+    color: #D3D3D3;
+}
+
+.date:hover{color: inherit;}

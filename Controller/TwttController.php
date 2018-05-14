@@ -11,14 +11,13 @@ class TwttController extends BaseController
 
     public function newTwttAction()
     {
-        $logs = new BaseController();
         $content = json_decode($_POST['content']);
         if (0 == strlen($content) || 140 < strlen($content)){
             return json_encode(['err' => 'error']);
         } else {
             $twttManager = new TwttManager();
             $twttManager->newTwtt($content);
-            $logs->logs("logs/access.log", $_SESSION['username']." just sent a twtt");
+            $this->logs("logs/access.log", $_SESSION['username']." just sent a twtt\n");
             return true;
         }
     }
@@ -27,7 +26,6 @@ class TwttController extends BaseController
     {
         $twttManager = new TwttManager();
         $tl = $twttManager->getTwttForProfile($_POST['profile_id']);
-        $tl = array_reverse($tl);
         $tweet = json_encode($tl, JSON_PRETTY_PRINT, 9999);
         return $tweet;
     }
@@ -36,7 +34,6 @@ class TwttController extends BaseController
     {
         $twttManager = new TwttManager();
         $tl = $twttManager->getTwttForHome();
-        $tl = array_reverse($tl);
         $tweet = json_encode($tl, JSON_PRETTY_PRINT, 9999);
         return $tweet;
     }

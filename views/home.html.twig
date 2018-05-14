@@ -1,9 +1,9 @@
 {% extends 'layout.html.twig' %}
 
 {% block page_title %}{{ parent() }} - Home{% endblock %}
+{% block style %}<link rel="stylesheet" href="./assets/home.css">{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="./assets/home.css">
     <main><br>
         <div class="new-twtt">
             <textarea name="new-twtt" cols="100" rows="5" required maxlength="140"></textarea>
@@ -15,5 +15,6 @@
 {% endblock %}
 
 {% block script %}
+    <script src="./assets/scripts/search.js"></script>
     <script src="./assets/scripts/home.js"></script>
 {% endblock %}

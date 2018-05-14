@@ -108,7 +108,6 @@ class TwttManager
 
     public function getTwttForHome()
     {
-
         $dbm = DBManager::getInstance();
         $pdo = $dbm->getPdo();
 

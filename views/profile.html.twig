@@ -1,8 +1,8 @@
 {% extends 'layout.html.twig' %}
 {% block page_title %}{{ parent() }} - profile{% endblock %}
+{% block style %}<link rel="stylesheet" href="./assets/profile.css">{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="./assets/profile.css">
     <h2 class="profile-head">Profile of <a href="?action=profile&amp;profile_id={{ userInfo.id }}">{{ userInfo.username }} @{{ userInfo.at_username }}</a></h2>
     <div class="actions">
     {% if userInfo['id'] != session['id'] and isFollowing == false %}

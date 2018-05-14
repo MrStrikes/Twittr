@@ -90,6 +90,8 @@ class TwttManager
                 unset($result[$a]['twtt']['user_id']['email']);
                 $result[$a]['type'] = 're_twtt';
             }
+            $result[$a]['isRt'] = $b = $userManager->hasAlreadyMadeThisAction($result[$a]['twtt_id'], 'rt', $_SESSION['id']);
+            $result[$a]['isFav'] = $b = $userManager->hasAlreadyMadeThisAction($result[$a]['twtt_id'], 'star', $_SESSION['id']);
         }
 
         usort($result, function($a, $b) {
@@ -151,6 +153,8 @@ class TwttManager
                 unset($result[$a]['twtt']['user_id']['email']);
                 $result[$a]['type'] = 're_twtt';
             }
+            $result[$a]['isRt'] = $b = $userManager->hasAlreadyMadeThisAction($result[$a]['twtt_id'], 'rt', $_SESSION['id']);
+            $result[$a]['isFav'] = $b = $userManager->hasAlreadyMadeThisAction($result[$a]['twtt_id'], 'star', $_SESSION['id']);
         }
 
         usort($result, function($a, $b) {

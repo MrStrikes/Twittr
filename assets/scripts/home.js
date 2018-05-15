@@ -39,13 +39,13 @@ function sendTwtt() {
             body: `content=+${JSON.stringify(twtt)}`,
             credentials: 'include'
         })
-            .then(json)
-            .then(function (data) {
-                console.log('Request succeeded with JSON response', data);
-            })
-            .catch(function (error) {
-                console.log('Request failed', error);
-            });
+        .then(json)
+        .then(function (data) {
+            console.log('Request succeeded with JSON response', data);
+        })
+        .catch(function (error) {
+            console.log('Request failed', error);
+        });
     }
 }
 
@@ -75,6 +75,8 @@ function getTl() {
                 loadActions('.star');
                 let rt = document.querySelector("#rt");
                 let fav = document.querySelector("#star");
+                let rtCounter = document.querySelector('.rt-counter');
+                let rtc = parseInt(rtCounter.innerHTML);
                 if(data[a].isRt == true){
                     rt.style.color = "green";
                 } else {
@@ -84,11 +86,27 @@ function getTl() {
                     if(data[a].isRt == false){
                         rt.style.color = "green";
                         data[a].isRt = true;
+                        if(rtc === 0){
+                            let newRtValue = rtc + 1;
+                            rtCounter.innerHTML = newRtValue;
+                        } else {
+                            let newRtValue = rtc;
+                            rtCounter.innerHTML = newRtValue;
+                        }
                     } else {
                         rt.style.color = "inherit";
                         data[a].isRt = false;
+                        if(rtc !== 0){
+                            let newRtValue = rtc;
+                            rtCounter.innerHTML = newRtValue - 1;
+                        } else {
+                            let newRtValue = rtc;
+                            rtCounter.innerHTML = newRtValue;
+                        }
                     }
                 });
+                let favCounter = document.querySelector('.fav-counter');
+                let favCount = parseInt(favCounter.innerHTML);
                 if(data[a].isFav == true){
                     fav.style.color = "orange";
                 } else {
@@ -98,9 +116,23 @@ function getTl() {
                     if(data[a].isFav == false){
                         fav.style.color = "orange";
                         data[a].isFav = true;
+                        if(favCount === 0){
+                            let newFavValue = favCount + 1;
+                            favCounter.innerHTML = newFavValue;
+                        } else {
+                            let newFavValue = favCount;
+                            favCounter.innerHTML = newFavValue;
+                        }
                     } else {
-                        fav.style.color = "inherit";
                         data[a].isFav = false;
+                        fav.style.color = "inherit";
+                        if(favCount !== 0){
+                            let newFavValue = favCount - 1;
+                            favCounter.innerHTML = newFavValue;
+                        } else {
+                            let newFavValue = favCount;
+                            favCounter.innerHTML = newFavValue;
+                        }
                     }
                 });
             }

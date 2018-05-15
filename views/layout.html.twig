@@ -21,7 +21,12 @@
                 <li class="head-link"><a href="?action=logout">Logout</a></li>
                 <li class="form-search">
                     <form action="?action=searchUser" name="searchUser" class="userSearch">
-                        <input type="text" name="username" required>
+                        <input type="text" name="username" list="usernames" required>
+                        <datalist id="usernames">
+                            {% for users in allUsers %}
+                                <option value="{{ users['username'] }}">
+                            {% endfor %}
+                        </datalist>
                         <input type="submit" name="submit" value="Search user">
                     </form>
                 </li>

@@ -329,4 +329,14 @@ class UserManager
             }
         }
     }
+
+    public function getAllUsernames()
+    {
+        $dbm = DBManager::getInstance();
+        $pdo = $dbm->getPdo();
+        $stmt = $pdo->prepare("SELECT username FROM users");
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result;
+    }
 }

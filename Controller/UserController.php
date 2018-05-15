@@ -77,10 +77,12 @@ class UserController extends BaseController
         }
         $userInfo = $userManager->getUserById($_GET['profile_id']);
         $isFollowing = $userManager->isFollowing($_SESSION['id'], $_GET['profile_id']);
+        $allUsernames = $userManager->getAllUsernames();
         $arr = [
             "isFollowing" => $isFollowing,
             "userInfo"   => $userInfo,
-            "session"    => $_SESSION
+            "session"    => $_SESSION,
+            "allUsers" => $allUsernames
         ];
         return $this->render('profile.html.twig', $arr);
     }

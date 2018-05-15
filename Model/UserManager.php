@@ -169,7 +169,7 @@ class UserManager
 
             $stmt->execute();
             $arr = [
-                "status" => "ok",
+                "status" => "followed",
                 "message" => "Follow ok !"
             ];
             return $arr;
@@ -186,7 +186,7 @@ class UserManager
 
         $stmt->execute();
         $arr = [
-            "status" => "ok",
+            "status" => "unfollowed",
             "message" => "Unfollow ok !"
         ];
         return $arr;

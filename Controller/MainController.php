@@ -9,11 +9,14 @@ class MainController extends BaseController
 {
     public function homeAction()
     {
+        $getUsernames = new UserManager();
         if (empty($_SESSION)){
             return $this->redirectToRoute('login');
         }
+        $allUsernames = $getUsernames->getAllUsernames();
         $arr = [
-            'session' => $_SESSION
+            'session' => $_SESSION,
+            'allUsers' => $allUsernames
         ];
         return $this->render('home.html.twig', $arr);
     }

@@ -21,13 +21,14 @@ window.addEventListener("load", () => {
             body: `follower_id=${follower_id}&followed_id=${followed_id}`,
             credentials: 'include'
         })
-            .then(json)
-            .then((data) => {
-            console.log('Request succeeded with JSON response', data);
-            followBtn.innerHTML = "<a>Unfollow</a>";
-            followBtn.setAttribute('href', '?action=unfollow');
-            followBtn.classList.add('unfollow-btn');
-            followBtn.classList.remove('follow-btn');
+        .then(json)
+        .then((data) => {
+        console.log('Request succeeded with JSON response', data);
+            if(data.status === "followed"){
+                followBtn.textContent = `Unfollow`;
+            } else {
+                followBtn.textContent = `Follow user`;
+            }
         })
         .catch((error) => {
             console.log('Request failed', error);

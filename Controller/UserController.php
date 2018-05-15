@@ -94,13 +94,6 @@ class UserController extends BaseController
         return json_encode($follow);
     }
 
-    public function unfollowAction()
-    {
-        $userManager = new UserManager();
-        $unfollow = $userManager->unfollowUser($_POST['follower_id'], $_POST['followed_id']);
-        return json_encode($unfollow);
-    }
-
     public function manageRatingsAction()
     {
         $userManager = new UserManager();

@@ -61,7 +61,13 @@ class UserController extends BaseController
             && !empty($_POST['password_repeat']) && !empty($_POST['email'])
         ) {
                 $UserManager = new UserManager();
-                $login = $UserManager->registerUser(htmlentities($_POST['firstname']), htmlentities($_POST['lastname']), htmlentities($_POST['username']), $_POST['password'], $_POST['password_repeat'], htmlentities($_POST['email']));
+                $login = $UserManager->registerUser(
+                    htmlentities($_POST['firstname']),
+                    htmlentities($_POST['lastname']),
+                    htmlentities($_POST['username']), 
+                    $_POST['password'], $_POST['password_repeat'], 
+                    htmlentities($_POST['email'])
+                );
             if ($login === true) {
                 $data = [
                     'status' => 'ok',
@@ -76,13 +82,20 @@ class UserController extends BaseController
         return $this->render('login.html.twig');
     }
 
+    /**
+     * Call for logging in a user
+     *
+     * @return Array $arr Returns datas on JSON for AJAX login
+     */
     public function loginAction()
     {
         if (!empty($_SESSION['id'])) {
             return $this->redirectToRoute('home');
         }
 
-        if (isset($_POST['username']) && isset($_POST['password']) || $_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['username']) && isset($_POST['password']) 
+            || $_SERVER['REQUEST_METHOD'] === 'POST'
+        ) {
             $userManager = new UserManager();
             $username = htmlentities($_POST['username']);
             $password = $_POST['password'];
@@ -104,14 +117,24 @@ class UserController extends BaseController
         return $this->render('login.html.twig');
     }
 
+    /**
+     * Call for adding a new user into the database
+     *
+     * @return Render Render the profile page depending of user ID
+     */
     public function profileAction()
     {
         $userManager = new UserManager();
-        if (empty($userManager->getUserById($_GET['profile_id'])) OR empty($_SESSION['id'])) {
+        if (empty($userManager->getUserById($_GET['profile_id'])) 
+            OR empty($_SESSION['id'])
+        ) {
             return $this->redirectToRoute('home');
         }
         $userInfo = $userManager->getUserById($_GET['profile_id']);
-        $isFollowing = $userManager->isFollowing($_SESSION['id'], $_GET['profile_id']);
+        $isFollowing = $userManager->isFollowing(
+            $_SESSION['id'], 
+            $_GET['profile_id']
+        );
         $allUsernames = $userManager->getAllUsernames();
         $arr = [
             "isFollowing" => $isFollowing,
@@ -122,20 +145,41 @@ class UserController extends BaseController
         return $this->render('profile.html.twig', $arr);
     }
 
+    /**
+     * Call for following a user
+     *
+     * @return JSON Returns JSON datas for AJAX calls
+     */
     public function followAction()
     {
         $userManager = new UserManager();
-        $follow = $userManager->followUser($_POST['follower_id'], $_POST['followed_id']);
+        $follow = $userManager->followUser(
+            $_POST['follower_id'], 
+            $_POST['followed_id']
+        );
         return json_encode($follow);
     }
 
+    /**
+     * Call for manage ratings made by the user
+     *
+     * @return JSON Returns JSON datas for AJAX calls
+     */
     public function manageRatingsAction()
     {
         $userManager = new UserManager();
-        $manageRating = $userManager->manageRatings($_POST['twtt_id'], $_POST['rating'], $_SESSION['id'], $_POST['re_twtt_id']);
+        $manageRating = $userManager->manageRatings(
+            $_POST['twtt_id'], $_POST['rating'], 
+            $_SESSION['id'], $_POST['re_twtt_id']
+        );
         return json_encode($manageRating);
     }
 
+    /**
+     * Call for searching a user with the search box
+     *
+     * @return JSON Returns JSON datas for AJAX calls
+     */
     public function searchUserAction()
     {
         $userManager = new UserManager();

@@ -57,9 +57,9 @@ class UserController extends BaseController
         if (!empty($_SESSION['id'])) {
             return $this->redirectToRoute('home');
         }
-        if (!empty($_POST['firstname']) && !empty($_POST['lastname'])
-            && !empty($_POST['username']) && !empty($_POST['password'])
-            && !empty($_POST['password_repeat']) && !empty($_POST['email'])
+        if (!empty($_POST['firstname']) || !empty($_POST['lastname'])
+            || !empty($_POST['username']) || !empty($_POST['password'])
+            || !empty($_POST['password_repeat']) || !empty($_POST['email'])
         ) {
             $UserManager = new UserManager();
             $login = $UserManager->registerUser(
@@ -76,12 +76,18 @@ class UserController extends BaseController
                 ];
                 return json_encode($data);
             } else {
-                $data = ['errors' => $login];
-                error_log("someone try to create a new account\n", 3, "./logs/security.log");
+                $data = [$login];
+                error_log(
+                    "someone try to create a new account\n",
+                    3,
+                    "./logs/security.log"
+                );
                 return json_encode($data);
             }
+        } else {
+            $data = ['message' => "Input's not filled"];
+            return json_encode($data);
         }
-        return $this->render('login.html.twig');
     }
 
     /**
@@ -114,7 +120,10 @@ class UserController extends BaseController
                     'status' => 'ok',
                     'message' => 'The user has successfully been logged in'
                 ];
-                $this->logs("logs/access.log", $_SESSION['username'] . '(' . $_SESSION['id'] . "): just login\n");
+                $this->logs(
+                    "logs/access.log",
+                    $_SESSION['username'] . '(' . $_SESSION['id'] . "): just login\n"
+                );
                 return json_encode($arr);
             }
         }
@@ -130,8 +139,13 @@ class UserController extends BaseController
     {
         $userManager = new UserManager();
         if (empty($userManager->getUserById($_GET['profile_id']))
-            OR empty($_SESSION['id'])) {
-            error_log("someone tried to go on profile with id" . $_GET['profile_id'] . "\n", 3, "./logs/security.log");
+            OR empty($_SESSION['id'])
+        ) {
+            error_log(
+                "someone tried to go on profile with id".$_GET['profile_id']."\n",
+                3, 
+                "./logs/security.log"
+            );
             return $this->redirectToRoute('home');
         }
         $userInfo = $userManager->getUserById($_GET['profile_id']);

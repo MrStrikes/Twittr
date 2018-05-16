@@ -22,8 +22,9 @@ window.addEventListener('load', () => {
     /***********
     * Register *
     ***********/
-    var register = document.forms.register;
-
+    let register = document.forms.register;
+    let error = document.querySelector('.err');
+    
     register.addEventListener('submit', (ev) => {
         ev.preventDefault();
         let firstname = register.elements.firstname;
@@ -36,7 +37,7 @@ window.addEventListener('load', () => {
         fetch(url, {
             method: 'post',
             headers: {
-            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
             body: `firstname=${firstname.value}&lastname=${lastname.value}&username=${user.value}&password=${pass.value}&password_repeat=${passwordRepeat.value}&email=${email.value}`,
             credentials: 'include'
@@ -50,9 +51,15 @@ window.addEventListener('load', () => {
                 $('#register-form-link').removeClass('active');
                 $(this).addClass('active');
                 alert("You can now login into Twttr !");
+            } else if(data.message === "Input's not filles"){
+                error.classList.add("list-group-item");
+                error.classList.add('list-group-item-warning');
+                error.innerHTML = `${data.message}`;  
             } else {
                 for(var i in data){
-                    alert(`${data[i].message}\n`);
+                    error.classList.add("list-group-item");
+                    error.classList.add('list-group-item-warning');
+                    error.innerHTML = `${data[i].message}`;   
                 }
             }
         })
@@ -86,7 +93,9 @@ window.addEventListener('load', () => {
             if(data.status === 'ok'){
                 window.location.href = "?action=home";
             } else {
-                alert(`${data.message}\n`);
+                error.classList.add("list-group-item");
+                error.classList.add('list-group-item-warning');
+                error.innerHTML = `${data.message}`;
             }
         })
         .catch((error) => {

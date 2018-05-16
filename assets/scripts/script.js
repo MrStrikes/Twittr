@@ -5,6 +5,8 @@ const newTwtt = (atUsername, username, user_id, date, content, twtt_id, rt, fav)
     let userActions = document.createElement('div');
     userActions.classList.add('user-actions');
     twtt.classList.add('twtt');
+    twtt.classList.add('list-group-item');
+    twtt.style.wordWrap = 'break-word';
     header.classList.add('tw-head');
     twContent.classList.add('tw-content');
     header.setAttribute('id', user_id);
@@ -25,6 +27,8 @@ const newRtwtt = (atUsername, username, user_id, date, content, user_rt_id, atUs
     userActions.classList.add('user-actions');
     twtt.classList.add('retwtt');
     twtt.classList.add('twtt');
+    twtt.classList.add('list-group-item');
+    twtt.style.wordWrap = 'break-word';
     header.classList.add('tw-head');
     twContent.classList.add('tw-content');
     header.setAttribute('id', user_id);

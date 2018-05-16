@@ -8,7 +8,7 @@ window.addEventListener("load", () => {
     var id = new URL(url);
     var follower_id = document.querySelector('.session_id').value;
     var followed_id = id.searchParams.get("profile_id");
-    var followBtn = document.querySelector('.follow-btn');
+    var followBtn = document.querySelector('.badge');
 
     followBtn.addEventListener('click', (e) => {
         e.preventDefault();

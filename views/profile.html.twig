@@ -6,9 +6,9 @@
     <h2 class="profile-head">Profile of <a href="?action=profile&amp;profile_id={{ userInfo.id }}">{{ userInfo.username }} @{{ userInfo.at_username }}</a></h2>
     <div class="actions">
     {% if userInfo['id'] != session['id'] and isFollowing == false %}
-        <a href='?action=follow' class='follow-btn actions'>Follow user</a>
+        <a href='?action=follow' class='badge badge-primary'>Follow user</a>
     {% elseif isFollowing == true %}
-        <a href='?action=unfollow' class='follow-btn actions'>Unfollow</a>
+        <a href='?action=unfollow' class='badge badge-primary'>Unfollow</a>
     {% endif %}
     </div><br>
     <div class="tl-profile">

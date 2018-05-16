@@ -561,7 +561,7 @@ class UserManager
         $pdo = $dbm->getPdo();
         $stmt = $pdo->prepare(
             "SELECT username 
-            FROM users"
+            FROM Users"
         );
         $stmt->execute();
         $result = $stmt->fetchAll();

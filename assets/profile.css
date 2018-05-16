@@ -27,14 +27,3 @@
 .date:hover{color: inherit;}
 
 .actions{text-align: center;}
-
-.follow-btn, .unfollow-btn{
-    border: solid 1px #000;
-    border-radius: 100px;
-    padding: .3%;
-}
-
-.follow-btn:hover, .unfollow-btn:hover{
-    text-decoration: none;
-    background-color: #F5F5F5;
-}

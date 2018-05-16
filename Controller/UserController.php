@@ -13,6 +13,7 @@
  * @license  https://www.gnu.org/licenses/gpl-3.0.txt GNU/GPLv3
  * @link     https://localhost/
  */
+
 namespace Controller;
 
 use Cool\BaseController;
@@ -21,7 +22,7 @@ use Model\UserManager;
 
 /**
  * UserController Class Doc Comment
- * 
+ *
  * @category  Class
  * @package   UserController
  * @author    Yanis Bendahmane <twttr@yanisbendahmane.fr>
@@ -29,7 +30,7 @@ use Model\UserManager;
  * @copyright 2018 BENDAHMANE & MARÉCHAL. All rights reserved.
  * @license   https://www.gnu.org/licenses/gpl-3.0.txt GNU/GPLv3
  * @link      https://localhost/
- * 
+ *
  * @since 1.0.0
  */
 class UserController extends BaseController
@@ -57,17 +58,17 @@ class UserController extends BaseController
             return $this->redirectToRoute('home');
         }
         if (!empty($_POST['firstname']) && !empty($_POST['lastname'])
-            && !empty($_POST['username']) && !empty($_POST['password']) 
+            && !empty($_POST['username']) && !empty($_POST['password'])
             && !empty($_POST['password_repeat']) && !empty($_POST['email'])
         ) {
-                $UserManager = new UserManager();
-                $login = $UserManager->registerUser(
-                    htmlentities($_POST['firstname']),
-                    htmlentities($_POST['lastname']),
-                    htmlentities($_POST['username']), 
-                    $_POST['password'], $_POST['password_repeat'], 
-                    htmlentities($_POST['email'])
-                );
+            $UserManager = new UserManager();
+            $login = $UserManager->registerUser(
+                htmlentities($_POST['firstname']),
+                htmlentities($_POST['lastname']),
+                htmlentities($_POST['username']),
+                $_POST['password'], $_POST['password_repeat'],
+                htmlentities($_POST['email'])
+            );
             if ($login === true) {
                 $data = [
                     'status' => 'ok',
@@ -76,6 +77,7 @@ class UserController extends BaseController
                 return json_encode($data);
             } else {
                 $data = ['errors' => $login];
+                error_log("someone try to create a new account\n", 3, "./logs/security.log");
                 return json_encode($data);
             }
         }
@@ -93,7 +95,7 @@ class UserController extends BaseController
             return $this->redirectToRoute('home');
         }
 
-        if (isset($_POST['username']) && isset($_POST['password']) 
+        if (isset($_POST['username']) && isset($_POST['password'])
             || $_SERVER['REQUEST_METHOD'] === 'POST'
         ) {
             $userManager = new UserManager();
@@ -105,12 +107,14 @@ class UserController extends BaseController
                     'status' => 'failed',
                     'message' => 'There was a problem loggin in the user'
                 ];
+                error_log("someone try to login\n", 3, "./logs/security.log");
                 return json_encode($arr);
             } else {
                 $arr = [
                     'status' => 'ok',
                     'message' => 'The user has successfully been logged in'
                 ];
+                $this->logs("logs/access.log", $_SESSION['username'] . '(' . $_SESSION['id'] . "): just login\n");
                 return json_encode($arr);
             }
         }
@@ -125,21 +129,21 @@ class UserController extends BaseController
     public function profileAction()
     {
         $userManager = new UserManager();
-        if (empty($userManager->getUserById($_GET['profile_id'])) 
-            OR empty($_SESSION['id'])
-        ) {
+        if (empty($userManager->getUserById($_GET['profile_id']))
+            OR empty($_SESSION['id'])) {
+            error_log("someone tried to go on profile with id" . $_GET['profile_id'] . "\n", 3, "./logs/security.log");
             return $this->redirectToRoute('home');
         }
         $userInfo = $userManager->getUserById($_GET['profile_id']);
         $isFollowing = $userManager->isFollowing(
-            $_SESSION['id'], 
+            $_SESSION['id'],
             $_GET['profile_id']
         );
         $allUsernames = $userManager->getAllUsernames();
         $arr = [
             "isFollowing" => $isFollowing,
-            "userInfo"   => $userInfo,
-            "session"    => $_SESSION,
+            "userInfo" => $userInfo,
+            "session" => $_SESSION,
             "allUsers" => $allUsernames
         ];
         return $this->render('profile.html.twig', $arr);
@@ -154,7 +158,7 @@ class UserController extends BaseController
     {
         $userManager = new UserManager();
         $follow = $userManager->followUser(
-            $_POST['follower_id'], 
+            $_POST['follower_id'],
             $_POST['followed_id']
         );
         return json_encode($follow);
@@ -169,7 +173,7 @@ class UserController extends BaseController
     {
         $userManager = new UserManager();
         $manageRating = $userManager->manageRatings(
-            $_POST['twtt_id'], $_POST['rating'], 
+            $_POST['twtt_id'], $_POST['rating'],
             $_SESSION['id'], $_POST['re_twtt_id']
         );
         return json_encode($manageRating);

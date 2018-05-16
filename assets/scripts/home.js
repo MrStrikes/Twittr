@@ -42,6 +42,7 @@ function sendTwtt() {
         .then(json)
         .then(function (data) {
             console.log('Request succeeded with JSON response', data);
+            getTl();
         })
         .catch(function (error) {
             console.log('Request failed', error);
@@ -64,6 +65,7 @@ function getTl() {
         .then(json)
         .then(function (data) {
             let tl = document.querySelector('.tl');
+            tl.innerHTML = "";
             for (let a in data) {
                 console.log(data[a]);
                 if ('re_twtt' === data[a].type) {

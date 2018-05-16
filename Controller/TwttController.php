@@ -67,6 +67,7 @@ class TwttController extends BaseController
     {
         $twttManager = new TwttManager();
         $tl = $twttManager->getTwttForProfile($_POST['profile_id']);
+        $tl = array_reverse($tl);
         $tweet = json_encode($tl, JSON_PRETTY_PRINT, 9999);
         return $tweet;
     }
@@ -80,6 +81,7 @@ class TwttController extends BaseController
     {
         $twttManager = new TwttManager();
         $tl = $twttManager->getTwttForHome();
+        $tl = array_reverse($tl);
         $tweet = json_encode($tl, JSON_PRETTY_PRINT, 9999);
         return $tweet;
     }

@@ -1,0 +1,6 @@
+db:
+    name: "Twttr"
+    user: "Twttr"
+    password: "Twttr"
+    host: localhost
+    port: ~

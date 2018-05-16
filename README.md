@@ -36,6 +36,7 @@ How to install the website ?
 * To make our website working, you'll need to install the database on ```PHPMyAdmin```
 * You'll find it on the ``assets`` directory named as ```Twttr.sql```
 * Then, after importing database, go to the ``config`` directory, and edit the file ```parameters.yml``` to setup your database credentials and making all these beauty to work
+* So, run `cp config/parameters.yml.dist config/parameters.yml` to setup inside your database crendentials, by replacing the bases ones
 * Aaaaand that's it !
 
 ## How to contact us

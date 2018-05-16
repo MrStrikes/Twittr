@@ -103,8 +103,8 @@ INSERT INTO `twtts` (`twtt_id`, `user_id`, `creation`, `content`) VALUES
 -- Structure de la table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
+DROP TABLE IF EXISTS `Users`;
+CREATE TABLE IF NOT EXISTS `Users` (
   `id` int(255) UNSIGNED NOT NULL AUTO_INCREMENT,
   `firstname` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `firstname`, `lastname`, `username`, `at_username`, `password`, `email`) VALUES
+INSERT INTO `Users` (`id`, `firstname`, `lastname`, `username`, `at_username`, `password`, `email`) VALUES
 (4, 'Maxime', 'Marechal', 'seth', 'seth', '$2y$10$Q8uEP7uAZ46/I4f0QSrwBOt4E9/jqx/9D8ZGeHsjXhie4ypUFwFoC', 'a@a.a'),
 (5, 'Maxime', 'Marechal', 'fastfire', 'fastfire', '$2y$10$4JuBF9SNksgyOcel.Xbhluiy7Vz.kZq8RUVLftED9OEHb4c7iU0Sa', 'a@a.b'),
 (6, 'Maxime', 'Marechal', 'fastfire2', 'fastfire2', '$2y$10$abIWYJyGvEANRug72s7Y0ubdvcrLgmY8.KDTi3T8SBuciVCkugDAq', 'a@a.c');

@@ -22,7 +22,7 @@ class UserController extends BaseController
             return $this->redirectToRoute('home');
         }
         if (!empty($_POST['firstname']) && !empty($_POST['lastname'])
-            && !empty($_POST['username']) && !empty($_POST['password']) 
+            && !empty($_POST['username']) && !empty($_POST['password'])
             && !empty($_POST['password_repeat']) && !empty($_POST['email'])) {
 
                 $UserManager = new UserManager();
@@ -35,6 +35,7 @@ class UserController extends BaseController
                 return json_encode($data);
             } else {
                 $data = ['errors' => $login];
+                    error_log("someone try to create a new account\n", 3, "./logs/security.log");
                 return json_encode($data);
             }
         }
@@ -57,12 +58,14 @@ class UserController extends BaseController
                     'status' => 'failed',
                     'message' => 'There was a problem loggin in the user'
                 ];
+                error_log("someone try to login\n", 3, "./logs/security.log");
                 return json_encode($arr);
             } else {
                 $arr = [
                     'status' => 'ok',
                     'message' => 'The user has successfully been logged in'
                 ];
+                $this->logs("logs/access.log", $_SESSION['username']. '(' . $_SESSION['id'] ."): just login\n");
                 return json_encode($arr);
             }
         }
@@ -73,6 +76,7 @@ class UserController extends BaseController
     {
         $userManager = new UserManager();
         if (empty($userManager->getUserById($_GET['profile_id'])) OR empty($_SESSION['id'])){
+            error_log($_SESSION['username']. '(' . $_SESSION['id'] ."): tried to go on profile with id" . $_GET['profile_id'] . "\n", 3, "./logs/security.log");
             return $this->redirectToRoute('home');
         }
         $userInfo = $userManager->getUserById($_GET['profile_id']);
@@ -89,6 +93,7 @@ class UserController extends BaseController
     {
         $userManager = new UserManager();
         $follow = $userManager->followUser($_POST['follower_id'], $_POST['followed_id']);
+        $this->logs("logs/access.log", $_SESSION['username']. '(' . $_SESSION['id'] ."): just follow" . $_POST['followed_id'] . "\n");
         return json_encode($follow);
     }
 
@@ -96,6 +101,7 @@ class UserController extends BaseController
     {
         $userManager = new UserManager();
         $unfollow = $userManager->unfollowUser($_POST['follower_id'], $_POST['followed_id']);
+        $this->logs("logs/access.log", $_SESSION['username']. '(' . $_SESSION['id'] ."): just unfollow" . $_POST['followed_id'] . "\n");
         return json_encode($unfollow);
     }
 

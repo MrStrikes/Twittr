@@ -13,6 +13,7 @@ class TwttController extends BaseController
     {
         $content = json_decode($_POST['content']);
         if (0 == strlen($content) || 140 < strlen($content)){
+            error_log($_SESSION['username'] . '(' . $_SESSION['id'] . ') try to create a twtt :' . $_POST['content'] . '\n', 3, "./logs/security.log");
             return json_encode(['err' => 'error']);
         } else {
             $twttManager = new TwttManager();
@@ -26,7 +27,8 @@ class TwttController extends BaseController
     {
         $twttManager = new TwttManager();
         $tl = $twttManager->getTwttForProfile($_POST['profile_id']);
-        $tweet = json_encode($tl, JSON_PRETTY_PRINT, 9999);
+        $tweet = array_reverse($tl);
+        $tweet = json_encode($tweet, JSON_PRETTY_PRINT, 9999);
         return $tweet;
     }
 
@@ -34,7 +36,8 @@ class TwttController extends BaseController
     {
         $twttManager = new TwttManager();
         $tl = $twttManager->getTwttForHome();
-        $tweet = json_encode($tl, JSON_PRETTY_PRINT, 9999);
+        $tweet = array_reverse($tl);
+        $tweet = json_encode($tweet, JSON_PRETTY_PRINT, 9999);
         return $tweet;
     }
 }

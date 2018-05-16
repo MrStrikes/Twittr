@@ -264,6 +264,7 @@ class UserManager
                 "status" => "Nope",
                 "message" => "You can't follow yourself dude"
             ];
+            error_log($follower . " try to follow himself\n", 3, "./logs/security.log");
             return $arr;
         } elseif ($_SESSION['id'] != $follower) {
             $arr = [
@@ -273,8 +274,10 @@ class UserManager
             return $arr;
         } elseif ($isFollowing == true) {
             $unfollow = $this->unfollowUser($follower, $followed);
+            error_log($follower . " just unfollow " . $follower . "\n", 3, "./logs/access.log");
             return $unfollow;
         } else {
+            error_log($follower . " just follow " . $follower . "\n", 3, "./logs/access.log");
             $stmt = $pdo->prepare(
                 "INSERT INTO `follow` 
                 (`id`, `follower_id`, `followed_id`) 
@@ -363,6 +366,7 @@ class UserManager
         $madeAction = $this->hasAlreadyMadeThisAction($twtt_id, $rating, $user);
 
         if (false == $madeAction) {
+            error_log($user . " ". $rating . "the twtt" . $twtt_id . "\n", 3, "./logs/access.log");
             $stmt = $pdo->prepare(
                 "INSERT INTO `ratings` 
                 (`id`, `twtt_id`, `rating`, `user_id`) 
@@ -433,6 +437,7 @@ class UserManager
      */
     public function removeRating($twtt_id, $rating, $user)
     {
+        error_log($user . " un". $rating . "the twtt" . $twtt_id . "\n", 3, "./logs/access.log");
         $dbm = DBManager::getInstance();
         $pdo = $dbm->getPdo();
         $stmt = $pdo->prepare(

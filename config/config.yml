@@ -8,7 +8,6 @@ routes:
     profile: "User:profile"
     getTlProfile: "Twtt:getTlProfile"
     follow: "User:follow"
-    unfollow: "User:unfollow"
     getMainTl: "Twtt:getMainTl"
     manageRatings: "User:manageRatings"
     searchUser: "User:searchUser"
